@@ -3,13 +3,24 @@ import pygame
 from pygame.locals import *
 from math import floor
 import random
-#подключил наканецта модули
-#azaz
-#lalka
+
+
 def init_window():
     pygame.init()
     pygame.display.set_mode((512, 512))
     pygame.display.set_caption('Pacman')
+
+
+class map:
+#класс, описываюший карту
+    def __init__(self, filename):
+        self.map = []
+        #открываем и считываем карту
+        f = open(filename, 'r')
+        txt = f.readlines()
+        f.close()
+
+
 
 
 def draw_background(scr, img=None):
@@ -130,7 +141,7 @@ if __name__ == '__main__':
     map_size = 16
     ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
-    background = None #pygame.image.load("./resources/background.png")
+    background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
 
     while 1:
