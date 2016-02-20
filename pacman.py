@@ -5,6 +5,7 @@ from math import floor
 import random
 #подключил наканецта модули
 #azaz
+#lalka
 def init_window():
     pygame.init()
     pygame.display.set_mode((512, 512))
