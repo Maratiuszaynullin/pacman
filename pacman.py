@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import *
 from math import floor
 import random
-
+#подключил наканецта модули
 
 def init_window():
     pygame.init()
