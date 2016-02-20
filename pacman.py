@@ -4,7 +4,7 @@ from pygame.locals import *
 from math import floor
 import random
 #подключил наканецта модули
-
+#azaz
 def init_window():
     pygame.init()
     pygame.display.set_mode((512, 512))
