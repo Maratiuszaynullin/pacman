@@ -116,6 +116,13 @@ class Pacman(GameObject):
         self.set_coord(self.x, self.y)
 
 
+class Wall(GameObject):
+    def __init__(self, x, y, tile_size, map_size):
+        GameObject.__init__(self, './resources/wall.png', x, y, tile_size, map_size)
+        self.direction = 0
+        self.velocity = 0
+
+
 def process_events(events, packman):
     for event in events:
         if (event.type == QUIT) or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -151,3 +158,4 @@ if __name__ == '__main__':
         pacman.draw(screen)
         ghost.draw(screen)
         pygame.display.update()
+
