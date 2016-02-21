@@ -28,6 +28,15 @@ class Map:
     def get(self, x, y):
         return self.data[y][x]
 
+    def count_food(self):
+        count = 0
+        for y in range(len(self.data)):
+            for x in range(len(self.data[0])):
+                if type(self.get(x, y)) == Food:
+                    count += 1
+        return count
+
+
 
 def draw_background(scr, img=None):
     if img:
@@ -202,9 +211,9 @@ if __name__ == '__main__':
     txt = f.readlines()
     f.close()
     map = Map(txt)
-    print(type(map.get(0, 0)))
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
+    you_win = pygame.image.load('./resources/you_win.png')
     while 1:
         process_events(pygame.event.get(), pacman)
         pygame.time.delay(100)
@@ -215,6 +224,8 @@ if __name__ == '__main__':
             for x in range(map_size):
                 if map.get(x, y) != None:
                     map.get(x, y).draw(screen)
+        if map.count_food() == 0:
+            you_win.draw(screen)
         pacman.draw(screen)
         ghost.draw(screen)
         pygame.display.update()
