@@ -11,12 +11,20 @@ def init_window():
     pygame.display.set_caption('Pacman')
 
 
+<<<<<<< HEAD
 class Map:
     def __init__(self, filename):
+=======
+class map:
+    #opisivaet klass karti
+    def __init__(self, filename):
+        #schitivaet kartu iz filename
+>>>>>>> 93129f8d74e1f59a450f9803ed3ed15849ee9445
         self.map = []
         f = open(filename, 'r')
         txt = f.readlines()
         f.close()
+<<<<<<< HEAD
 
         for line in txt:
             for symbol in line:
@@ -34,6 +42,23 @@ class Map:
                 if symbol == 'X':
                     walls_number += 1
         return walls_number
+=======
+        for line in txt:        #perebiraet txt
+            for symbol in line:
+                if symbol == "-":
+                    self.map.append(Wall(x, y))         #tut budet stena
+                elif symbol == ".":
+                    self.map.append(Food(x, y))         #tut budet edaaaaa
+                elif symbol == "x":
+                    self.map.append(Immortal_wall(x, y))        #tut budet nerazrushimaya stena
+                else:
+                    self.map.append(None)           #tut nichego ne budet
+
+
+
+
+
+>>>>>>> 93129f8d74e1f59a450f9803ed3ed15849ee9445
 
 
 def draw_background(scr, img=None):
