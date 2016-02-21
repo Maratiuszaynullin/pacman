@@ -11,54 +11,22 @@ def init_window():
     pygame.display.set_caption('Pacman')
 
 
-<<<<<<< HEAD
 class Map:
-    def __init__(self, filename):
-=======
-class map:
-    #opisivaet klass karti
-    def __init__(self, filename):
-        #schitivaet kartu iz filename
->>>>>>> 93129f8d74e1f59a450f9803ed3ed15849ee9445
-        self.map = []
-        f = open(filename, 'r')
-        txt = f.readlines()
-        f.close()
-<<<<<<< HEAD
+    def __init__(self, txt, map_size = 16):
+        self.data = [[0]*(len(txt)) for i in range(len(txt))]
+        for y in range(len(txt)):
+            for x in range(len(txt)):
+                if txt[y][x] == 'X':
+                    self.data[y][x] = Wall(x, y)
+                elif txt[y][x] == ".":
+                    self.data[y][x] = Wall(x, y)
+                #elif txt[y][x] == "X":
+                #    self.data[y][x] = Immortal_wall(x, y)
+                #else:
+                #    self.data[y][x] = None
 
-        for line in txt:
-            for symbol in line:
-                if symbol == "-":
-                    self.map.append(Wall(x, y))
-                elif symbol == ".":
-                    self.map.append(Food(x, y))
-                elif symbol == "X":
-                    self.map.append(Immortal_wall(x, y))
-                else:
-                    self.map.append(None)
-    def count_walls(self, walls_number = 0):
-        for line in self.map:
-            for symbol in line:
-                if symbol == 'X':
-                    walls_number += 1
-        return walls_number
-=======
-        for line in txt:        #perebiraet txt
-            for symbol in line:
-                if symbol == "-":
-                    self.map.append(Wall(x, y))         #tut budet stena
-                elif symbol == ".":
-                    self.map.append(Food(x, y))         #tut budet edaaaaa
-                elif symbol == "x":
-                    self.map.append(Immortal_wall(x, y))        #tut budet nerazrushimaya stena
-                else:
-                    self.map.append(None)           #tut nichego ne budet
-
-
-
-
-
->>>>>>> 93129f8d74e1f59a450f9803ed3ed15849ee9445
+    def get(self, x, y):
+        return(self.data[y][x])
 
 
 def draw_background(scr, img=None):
@@ -157,10 +125,20 @@ class Pacman(GameObject):
 
 
 class Wall(GameObject):
-    def __init__(self, x, y, tile_size, map_size):
+    def __init__(self, x, y, tile_size=32, map_size=16):
         GameObject.__init__(self, './resources/wall.png', x, y, tile_size, map_size)
         self.direction = 0
         self.velocity = 0
+
+
+#class Immortal_wall(Wall):
+
+
+#class Food(GameObject):
+#    def __init__(self, x, y, tile_size=32, map_size=16):
+#        screen = pygame.display.get_surface()
+#        image = pygame.draw.circle(screen, (255, 255, 255), (x, y), 5, width = 0)
+#        GameObject.__init__(self, image, x, y, tile_size, map_size)
 
 
 def process_events(events, packman):
@@ -184,26 +162,25 @@ if __name__ == '__main__':
     init_window()
     tile_size = 32
     map_size = 16
-    #map = Map(map) #zdes' dolgen but' 2mernuy massiv is obyectov
     ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
-    wall1 = Wall(6, 6, tile_size, map_size) #test
-    wall2 = Wall(6, 7, tile_size, map_size)
+    f = open('map', 'r')
+    txt = f.readlines()
+    f.close()
+    map = Map(txt)
+    print(map.data)
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
-
     while 1:
         process_events(pygame.event.get(), pacman)
         pygame.time.delay(100)
         ghost.game_tick()
         pacman.game_tick()
         draw_background(screen, background)
-        #for line in map:
-        #    for symbol in line:
-        #        symbol.draw(screen)
+        for y in range(map_size):
+            for x in range(map_size):
+                map.get(x, y).draw(screen)
         pacman.draw(screen)
         ghost.draw(screen)
-        wall1.draw(screen)
-        wall2.draw(screen)
         pygame.display.update()
 
