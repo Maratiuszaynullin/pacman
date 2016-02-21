@@ -11,31 +11,6 @@ def init_window():
     pygame.display.set_caption('Pacman')
 
 
-class map:
-    #opisivaet klass karti
-    def __init__(self, filename):
-        #schitivaet kartu iz filename
-        self.map = []
-        f = open(filename, 'r')
-        txt = f.readlines()
-        f.close()
-        for line in txt:        #perebiraet txt
-            for symbol in line:
-                if symbol == "-":
-                    self.map.append(Wall(x, y))         #tut budet stena
-                elif symbol == ".":
-                    self.map.append(Food(x, y))         #tut budet edaaaaa
-                elif symbol == "x":
-                    self.map.append(Immortal_wall(x, y))        #tut budet nerazrushimaya stena
-                else:
-                    self.map.append(None)           #tut nichego ne budet
-
-
-
-
-
-
-
 def draw_background(scr, img=None):
     if img:
         scr.blit(img, (0, 0))
@@ -52,9 +27,9 @@ class GameObject(pygame.sprite.Sprite):
         self.screen_rect = None
         self.x = 0
         self.y = 0
-        self.tick = 0
         self.tile_size = tile_size
         self.map_size = map_size
+        self.tick = 0
         self.set_coord(x, y)
 
     def set_coord(self, x, y):
@@ -67,6 +42,12 @@ class GameObject(pygame.sprite.Sprite):
 
     def draw(self, scr):
         scr.blit(self.image, (self.screen_rect.x, self.screen_rect.y))
+
+
+class Wall(GameObject):
+    def __init__(self, x, y, tile_size, map_size):
+        GameObject.__init__(self, './resources/wall.png', x, y, tile_size, map_size)
+        self.set_coord(self.x, self.y)
 
 
 class Ghost(GameObject):
@@ -148,6 +129,7 @@ def process_events(events, packman):
                 packman.direction = 0
 
 
+
 if __name__ == '__main__':
     init_window()
     tile_size = 32
@@ -155,6 +137,7 @@ if __name__ == '__main__':
     ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
     background = pygame.image.load("./resources/background.png")
+    wall = pygame.image.load("./resources/wall.png")
     screen = pygame.display.get_surface()
 
     while 1:
@@ -166,3 +149,4 @@ if __name__ == '__main__':
         pacman.draw(screen)
         ghost.draw(screen)
         pygame.display.update()
+
