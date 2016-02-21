@@ -10,17 +10,6 @@ def init_window():
     pygame.display.set_mode((512, 512))
     pygame.display.set_caption('Pacman')
 
-def win():
-    if map.count_food() == 0:
-        you_win = pygame.image.load('./resources/you_win.png')
-        draw_background(screen, you_win)
-
-def game_over(): #FIXME
-    game_over = pygame.image.load('./resources/game_over.png')
-    if pacman.x == ghost.x and pacman.y == ghost.y:
-        draw_background(screen, game_over)
-    if pacman.x == ghost1.x and pacman.y == ghost1.y:
-        draw_background(screen, game_over)
 
 def draw_objects():
     for y in range(map_size):
@@ -265,6 +254,29 @@ class Food(GameObject):
         GameObject.__init__(self, './resources/food.png', x, y, tile_size, map_size)
 
 
+class GameOver_image(GameObject): #WAT
+    def __init__(self, x, y, tile_size, map_size):
+        GameObject.__init__(self, './resources/game_over.png', x, y, tile_size, map_size)
+
+def game_over(): #FIXME
+    game_over = GameOver_image(0, 0, tile_size, map_size)
+    if int(pacman.x) == int(ghost.x) and int(pacman.y) == int(ghost.y):
+        game_over.draw(screen)
+        pacman.direction = 0
+        ghost.direction = 0
+        ghost1.direction = 0
+    elif int(pacman.x) == int(ghost1.x) and int(pacman.y) == int(ghost1.y):
+        game_over.draw(screen)
+        pacman.direction = 0
+        ghost.direction = 0
+        ghost1.direction = 0
+
+def win():
+    if map.count_food() == 0:
+        you_win = pygame.image.load('./resources/you_win.png')
+        draw_background(screen, you_win)
+
+
 def process_events(events, packman):
     for event in events:
         if (event.type == QUIT) or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -307,7 +319,7 @@ if __name__ == '__main__':
         pacman.draw(screen)
         ghost.draw(screen)
         ghost1.draw(screen)
-        win()
         game_over()
+        win()
         pygame.display.update()
 
