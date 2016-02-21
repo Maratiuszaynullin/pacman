@@ -10,6 +10,23 @@ def init_window():
     pygame.display.set_mode((512, 512))
     pygame.display.set_caption('Pacman')
 
+def win():
+    if map.count_food() == 0:
+        you_win = pygame.image.load('./resources/you_win.png')
+        draw_background(screen, you_win)
+
+def game_over(): #FIXME
+    game_over = pygame.image.load('./resources/game_over.png')
+    if pacman.x == ghost.x and pacman.y == ghost.y:
+        draw_background(screen, game_over)
+    if pacman.x == ghost1.x and pacman.y == ghost1.y:
+        draw_background(screen, game_over)
+
+def draw_objects():
+    for y in range(map_size):
+        for x in range(map_size):
+            if map.get(x, y) != None:
+                map.get(x, y).draw(screen)
 
 class Map:
     def __init__(self, txt, map_size = 16):
@@ -276,14 +293,9 @@ if __name__ == '__main__':
     txt = f.readlines()
     f.close()
     map = Map(txt)
-<<<<<<< HEAD
-=======
-    print(type(map.get(0, 0)))
-    print()
->>>>>>> 13786effb0925f49502db47499442f5f5e64c2d9
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
-    you_win = pygame.image.load('./resources/you_win.png')
+
     while 1:
         process_events(pygame.event.get(), pacman)
         pygame.time.delay(100)
@@ -291,14 +303,11 @@ if __name__ == '__main__':
         ghost1.game_tick()
         pacman.game_tick()
         draw_background(screen, background)
-        for y in range(map_size):
-            for x in range(map_size):
-                if map.get(x, y) != None:
-                    map.get(x, y).draw(screen)
-        if map.count_food() == 0:
-            you_win.draw(screen)
+        draw_objects()
         pacman.draw(screen)
         ghost.draw(screen)
         ghost1.draw(screen)
+        win()
+        game_over()
         pygame.display.update()
 
