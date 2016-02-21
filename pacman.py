@@ -26,7 +26,7 @@ class Map:
                     self.data[y][x] = None
 
     def get(self, x, y):
-        return (self.data[y][x])
+        return self.data[y][x]
 
 
 def draw_background(scr, img=None):
@@ -106,6 +106,10 @@ class Pacman(GameObject):
         self.direction = 0
         self.velocity = 4.0 / 10.0
 
+    def eat_food(self):
+        if type(map.get(int(self.x), int(self.y))) == Food:
+            map.data[int(self.y)][int(self.x)] = None
+
     def game_tick(self):
         super(Pacman, self).game_tick()
         if self.direction == 1:
@@ -128,6 +132,8 @@ class Pacman(GameObject):
                 self.y -= self.velocity
             if self.y <= 0:
                 self.y = 0
+
+        self.eat_food()
 
         self.set_coord(self.x, self.y)
 
