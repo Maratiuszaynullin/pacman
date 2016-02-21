@@ -12,10 +12,9 @@ def init_window():
 
 
 class map:
-#класс, описываюший карту
-    def __init__(self, filename, ):
+    def __init__(self, filename):
+
         self.map = []
-        #открываем и считываем карту
         f = open(filename, 'r')
         txt = f.readlines()
         f.close()
@@ -33,13 +32,6 @@ class map:
 
 
 
-
-class map:
-
-    def __init__(self, filename):
-        self.map = []
-
-        f = open(filename, 'r')
 
 
 
