@@ -16,14 +16,14 @@ class Map:
         self.data = [[0]*(len(txt)) for i in range(len(txt))]
         for y in range(len(txt)):
             for x in range(len(txt)):
-                if txt[y][x] == 'X':
+                if txt[y][x] == 'O':
                     self.data[y][x] = Wall(x, y)
                 elif txt[y][x] == ".":
-                    self.data[y][x] = Wall(x, y)
-                #elif txt[y][x] == "X":
-                #    self.data[y][x] = Immortal_wall(x, y)
-                #else:
-                #    self.data[y][x] = None
+                    self.data[y][x] = Food(x, y)
+                elif txt[y][x] == 'X':
+                    self.data[y][x] = Immortal_wall(x, y)
+                else:
+                    self.data[y][x] = None
 
     def get(self, x, y):
         return(self.data[y][x])
@@ -131,15 +131,18 @@ class Wall(GameObject):
         self.velocity = 0
 
 
-#class Immortal_wall(Wall):
+class Immortal_wall(Wall):
+    def __init__(self, x, y, tile_size=32, map_size=16):
+        GameObject.__init__(self, './resources/immortal_wall.png', x, y, tile_size, map_size)
+        self.direction = 0
+        self.velocity = 0
 
 
-#class Food(GameObject):
-#    def __init__(self, x, y, tile_size=32, map_size=16):
-#        screen = pygame.display.get_surface()
-#        image = pygame.draw.circle(screen, (255, 255, 255), (x, y), 5, width = 0)
-#        GameObject.__init__(self, image, x, y, tile_size, map_size)
-
+class Food(GameObject):
+    def __init__(self, x, y, tile_size=32, map_size=16):
+        GameObject.__init__(self, './resources/food.png', x, y, tile_size, map_size)
+        self.direction = 0
+        self.velocity = 0
 
 def process_events(events, packman):
     for event in events:
@@ -168,7 +171,6 @@ if __name__ == '__main__':
     txt = f.readlines()
     f.close()
     map = Map(txt)
-    print(map.data)
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
     while 1:
@@ -179,7 +181,8 @@ if __name__ == '__main__':
         draw_background(screen, background)
         for y in range(map_size):
             for x in range(map_size):
-                map.get(x, y).draw(screen)
+                if map.get(x, y) != None:
+                    map.get(x, y).draw(screen)
         pacman.draw(screen)
         ghost.draw(screen)
         pygame.display.update()
