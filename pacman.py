@@ -26,7 +26,7 @@ class Map:
                     self.data[y][x] = None
 
     def get(self, x, y):
-        return(self.data[y][x])
+        return (self.data[y][x])
 
 
 def draw_background(scr, img=None):
@@ -74,22 +74,26 @@ class Ghost(GameObject):
             self.direction = random.randint(1, 4)
 
         if self.direction == 1:
-            self.x += self.velocity
+            if type(map.get(int(self.x + self.velocity), int(self.y))) != Immortal_wall:
+                self.x += self.velocity
             if self.x >= self.map_size-1:
                 self.x = self.map_size-1
                 self.direction = random.randint(1, 4)
         elif self.direction == 2:
-            self.y += self.velocity
+            if type(map.get(int(self.x), int(self.y + self.velocity))) != Immortal_wall:
+                self.y += self.velocity
             if self.y >= self.map_size-1:
                 self.y = self.map_size-1
                 self.direction = random.randint(1, 4)
         elif self.direction == 3:
-            self.x -= self.velocity
+            if type(map.get(int(self.x - self.velocity), int(self.y))) != Immortal_wall:
+                self.x -= self.velocity
             if self.x <= 0:
                 self.x = 0
                 self.direction = random.randint(1, 4)
         elif self.direction == 4:
-            self.y -= self.velocity
+            if type(map.get(int(self.x), int(self.y - self.velocity))) != Immortal_wall:
+                self.y -= self.velocity
             if self.y <= 0:
                 self.y = 0
                 self.direction = random.randint(1, 4)
@@ -105,19 +109,23 @@ class Pacman(GameObject):
     def game_tick(self):
         super(Pacman, self).game_tick()
         if self.direction == 1:
-            self.x += self.velocity
+            if type(map.get(int(self.x + self.velocity), int(self.y))) != Immortal_wall:
+                self.x += self.velocity
             if self.x >= self.map_size-1:
                 self.x = self.map_size-1
         elif self.direction == 2:
-            self.y += self.velocity
+            if type(map.get(int(self.x), int(self.y + self.velocity))) != Immortal_wall:
+                self.y += self.velocity
             if self.y >= self.map_size-1:
                 self.y = self.map_size-1
         elif self.direction == 3:
-            self.x -= self.velocity
+            if type(map.get(int(self.x - self.velocity), int(self.y))) != Immortal_wall:
+                self.x -= self.velocity
             if self.x <= 0:
                 self.x = 0
         elif self.direction == 4:
-            self.y -= self.velocity
+            if type(map.get(int(self.x), int(self.y - self.velocity))) != Immortal_wall:
+                self.y -= self.velocity
             if self.y <= 0:
                 self.y = 0
 
@@ -127,22 +135,17 @@ class Pacman(GameObject):
 class Wall(GameObject):
     def __init__(self, x, y, tile_size=32, map_size=16):
         GameObject.__init__(self, './resources/wall.png', x, y, tile_size, map_size)
-        self.direction = 0
-        self.velocity = 0
 
 
-class Immortal_wall(Wall):
+class Immortal_wall(GameObject):
     def __init__(self, x, y, tile_size=32, map_size=16):
         GameObject.__init__(self, './resources/immortal_wall.png', x, y, tile_size, map_size)
-        self.direction = 0
-        self.velocity = 0
 
 
 class Food(GameObject):
     def __init__(self, x, y, tile_size=32, map_size=16):
         GameObject.__init__(self, './resources/food.png', x, y, tile_size, map_size)
-        self.direction = 0
-        self.velocity = 0
+
 
 def process_events(events, packman):
     for event in events:
@@ -171,6 +174,7 @@ if __name__ == '__main__':
     txt = f.readlines()
     f.close()
     map = Map(txt)
+    print(type(map.get(0, 0)))
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
     while 1:
