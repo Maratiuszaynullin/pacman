@@ -13,12 +13,33 @@ def init_window():
 
 class map:
 #класс, описываюший карту
-    def __init__(self, filename):
+    def __init__(self, filename, ):
         self.map = []
         #открываем и считываем карту
         f = open(filename, 'r')
         txt = f.readlines()
         f.close()
+
+        for line in txt:    #перебираем txt по символам
+            for symbol in line:
+                if symbol == "-":
+                    self.map.append(Wall(x, y))     #стена в этих коорд
+                elif symbol == ".":
+                    self.map.append(Food(x, y))     #еда в этих коорд
+                elif symbol == "x":
+                    self.map.append(Immortal_wall(x, y))        #неразрущимая стена в этих коорд
+                else:
+                    self.map.append(None)       #ничего в этих коорд
+
+
+
+
+class map:
+
+    def __init__(self, filename):
+        self.map = []
+
+        f = open(filename, 'r')
 
 
 
