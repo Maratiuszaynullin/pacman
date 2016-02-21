@@ -170,9 +170,22 @@ class Unblinded_ghost(GameObject):
 
 class Pacman(GameObject):
     def __init__(self, x, y, tile_size, map_size):
-        GameObject.__init__(self, './resources/pacman.png', x, y, tile_size, map_size)
         self.direction = 0
         self.velocity = 4.0 / 10.0
+        self.image = './resources/pacman_right.png'
+        GameObject.__init__(self, self.image, x, y, tile_size, map_size)
+
+
+    def direction_image(self, direction):
+        if direction == 1:
+            self.image = pygame.image.load('./resources/pacman_right.png')
+        elif self.direction == 2:
+            self.image = pygame.image.load('./resources/pacman_down.png')
+        elif self.direction == 3:
+            self.image = pygame.image.load('./resources/pacman_left.png')
+        elif self.direction == 4:
+            self.image = pygame.image.load('./resources/pacman_up.png')
+
 
     def eat_food(self):
         if type(map.get(int(self.x), int(self.y))) == Food:
@@ -207,6 +220,7 @@ class Pacman(GameObject):
 
         self.eat_food()
         self.crush_wall()
+        self.direction_image(self.direction)
         self.set_coord(self.x, self.y)
 
 
