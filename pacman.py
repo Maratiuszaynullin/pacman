@@ -127,18 +127,24 @@ class Unblinded_ghost(GameObject):
 
     def game_tick(self):
         super(Unblinded_ghost, self).game_tick()
-
-
-        if self.y == pacman.y:
-            if self.x > pacman.x:
+        if floor(self.y) == floor(pacman.y):
+            if floor(self.x) > floor(pacman.x):
                 self.direction = 3
             else:
                 self.direction = 1
-        elif self.x == pacman.x:
-            if self.y > pacman.y:
-                self.direction = 2
-            else:
+        elif floor(self.x) == floor(pacman.x):
+            if floor(self.y) > floor(pacman.y):
                 self.direction = 4
+            else:
+                self.direction = 2
+
+
+
+
+
+
+
+
 
 
 
@@ -317,6 +323,7 @@ if __name__ == '__main__':
         draw_background(screen, background)
         draw_objects()
         pacman.draw(screen)
+
         ghost.draw(screen)
         ghost1.draw(screen)
         game_over()
