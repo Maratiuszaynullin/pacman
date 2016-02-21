@@ -11,29 +11,29 @@ def init_window():
     pygame.display.set_caption('Pacman')
 
 
-class map:
+class Map:
     def __init__(self, filename):
-
         self.map = []
         f = open(filename, 'r')
         txt = f.readlines()
         f.close()
 
-        for line in txt:    #перебираем txt по символам
+        for line in txt:
             for symbol in line:
                 if symbol == "-":
-                    self.map.append(Wall(x, y))     #стена в этих коорд
+                    self.map.append(Wall(x, y))
                 elif symbol == ".":
-                    self.map.append(Food(x, y))     #еда в этих коорд
-                elif symbol == "x":
-                    self.map.append(Immortal_wall(x, y))        #неразрущимая стена в этих коорд
+                    self.map.append(Food(x, y))
+                elif symbol == "X":
+                    self.map.append(Immortal_wall(x, y))
                 else:
-                    self.map.append(None)       #ничего в этих коорд
-
-
-
-
-
+                    self.map.append(None)
+    def count_walls(self, walls_number = 0):
+        for line in self.map:
+            for symbol in line:
+                if symbol == 'X':
+                    walls_number += 1
+        return walls_number
 
 
 def draw_background(scr, img=None):
@@ -159,8 +159,11 @@ if __name__ == '__main__':
     init_window()
     tile_size = 32
     map_size = 16
+    #map = Map(map) #zdes' dolgen but' 2mernuy massiv is obyectov
     ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
+    wall1 = Wall(6, 6, tile_size, map_size) #test
+    wall2 = Wall(6, 7, tile_size, map_size)
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
 
@@ -170,7 +173,12 @@ if __name__ == '__main__':
         ghost.game_tick()
         pacman.game_tick()
         draw_background(screen, background)
+        #for line in map:
+        #    for symbol in line:
+        #        symbol.draw(screen)
         pacman.draw(screen)
         ghost.draw(screen)
+        wall1.draw(screen)
+        wall2.draw(screen)
         pygame.display.update()
 
