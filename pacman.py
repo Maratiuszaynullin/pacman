@@ -75,25 +75,29 @@ class Ghost(GameObject):
 
         if self.direction == 1:
             if type(map.get(int(self.x + self.velocity), int(self.y))) != Immortal_wall:
-                self.x += self.velocity
+                if type(map.get(int(self.x + self.velocity), int(self.y))) != Wall:
+                    self.x += self.velocity
             if self.x >= self.map_size-1:
                 self.x = self.map_size-1
                 self.direction = random.randint(1, 4)
         elif self.direction == 2:
             if type(map.get(int(self.x), int(self.y + self.velocity))) != Immortal_wall:
-                self.y += self.velocity
+                if type(map.get(int(self.x), int(self.y + self.velocity))) != Wall:
+                    self.y += self.velocity
             if self.y >= self.map_size-1:
                 self.y = self.map_size-1
                 self.direction = random.randint(1, 4)
         elif self.direction == 3:
             if type(map.get(int(self.x - self.velocity), int(self.y))) != Immortal_wall:
-                self.x -= self.velocity
+                if type(map.get(int(self.x - self.velocity), int(self.y))) != Wall:
+                    self.x -= self.velocity
             if self.x <= 0:
                 self.x = 0
                 self.direction = random.randint(1, 4)
         elif self.direction == 4:
             if type(map.get(int(self.x), int(self.y - self.velocity))) != Immortal_wall:
-                self.y -= self.velocity
+                if type(map.get(int(self.x), int(self.y - self.velocity))) != Wall:
+                    self.y -= self.velocity
             if self.y <= 0:
                 self.y = 0
                 self.direction = random.randint(1, 4)
@@ -108,6 +112,10 @@ class Pacman(GameObject):
 
     def eat_food(self):
         if type(map.get(int(self.x), int(self.y))) == Food:
+            map.data[int(self.y)][int(self.x)] = None
+
+    def crush_wall(self):
+        if type(map.get(int(self.x), int(self.y))) == Wall:
             map.data[int(self.y)][int(self.x)] = None
 
     def game_tick(self):
@@ -134,7 +142,7 @@ class Pacman(GameObject):
                 self.y = 0
 
         self.eat_food()
-
+        self.crush_wall()
         self.set_coord(self.x, self.y)
 
 
