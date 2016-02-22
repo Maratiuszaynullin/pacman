@@ -16,9 +16,13 @@ def win():
         draw_background(screen, you_win)
 
 def game_over(): #FIXME
-    game_over = pygame.image.load('./resources/game_over.png')
+    end_screen = pygame.image.load('./resources/game_over.png')
     if (floor(pacman.x) == floor(unblinded_ghost_Marat.x)) and (floor(pacman.y) == floor(unblinded_ghost_Marat.y)):
-        draw_background(screen, game_over)
+        unblinded_ghost_Marat.velocity = 0
+        unblinded_ghost_Ksenia.velocity = 0
+        blind_ghost.velocity = 0
+        pacman.velocity = 0
+        draw_background(screen, end_screen)
     #if pacman.x == ghost1.x and pacman.y == ghost1.y:
         #draw_background(screen, game_over)
 
@@ -27,6 +31,14 @@ def draw_objects():
         for x in range(map_size):
             if map.get(x, y) != None:
                 map.get(x, y).draw(screen)
+
+def draw_background(scr, img=None):
+    if img:
+        scr.blit(img, (0, 0))
+    else:
+        bg = pygame.Surface(scr.get_size())
+        bg.fill((128, 128, 128))
+        scr.blit(bg, (0, 0))
 
 class Map:
     def __init__(self, txt, map_size = 16):
@@ -53,19 +65,6 @@ class Map:
                     count += 1
         return count
 
-
-
-
-
-def draw_background(scr, img=None):
-    if img:
-        scr.blit(img, (0, 0))
-    else:
-        bg = pygame.Surface(scr.get_size())
-        bg.fill((128, 128, 128))
-        scr.blit(bg, (0, 0))
-
-
 class GameObject(pygame.sprite.Sprite):
     def __init__(self, img, x, y, tile_size, map_size):
         pygame.sprite.Sprite.__init__(self)
@@ -89,7 +88,7 @@ class GameObject(pygame.sprite.Sprite):
     def draw(self, scr):
         scr.blit(self.image, (self.screen_rect.x, self.screen_rect.y))
 
-
+#FIXME proverky na nalichie sten sdelat' function v class Ghost, Inblinded_ghost, Pacman
 class Ghost(GameObject):
     def __init__(self, x, y, tile_size, map_size):
         GameObject.__init__(self, './resources/ghost.png', x, y, tile_size, map_size)
@@ -144,7 +143,7 @@ class Unblinded_ghost(GameObject):
     def __init__(self, x, y, tile_size, map_size):
         GameObject.__init__(self, './resources/ghost.png', x, y, tile_size, map_size)
         self.direction = 0
-        self.velocity = 4.0 / 10.0
+        self.velocity = 3.95 / 10.0
 
     def game_tick(self):
         super(Unblinded_ghost, self).game_tick()
@@ -314,7 +313,7 @@ def process_events(events, packman):
             elif event.key == K_SPACE:
                 packman.direction = 0
 
-
+#FIXME sdelat' creator dlya ghosts
 if __name__ == '__main__':
     init_window()
     tile_size = 32
@@ -324,7 +323,7 @@ if __name__ == '__main__':
     unblinded_ghost_Marat = Unblinded_ghost(8, 4, tile_size, map_size)
     blind_ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
-    f = open('map', 'r')
+    f = open('map', 'r') #FIXME perenesti v class Map, ostavit' tut tol'ko nasvanie otkrivaemoi karti
     txt = f.readlines()
     f.close()
     map = Map(txt)
