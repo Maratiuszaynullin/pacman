@@ -356,7 +356,7 @@ if __name__ == '__main__':
         unblinded_ghost_Marat.draw(screen)
         blind_ghost.draw(screen)
         you_win()
-        you_lose()
+        #you_lose()
         pygame.display.update()
 
 
