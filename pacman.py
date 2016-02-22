@@ -141,12 +141,10 @@ class Unblinded_ghost(GameObject):
     def game_tick(self):
         super(Unblinded_ghost, self).game_tick()
 
-
-
         if floor(self.y) == floor(pacman.y):
             if (floor(self.x) > floor(pacman.x)):
                 for i in range(int(abs(self.x - pacman.x))+1):
-                    if type(map.get(int(self.x - i), int(self.y))) == Immortal_wall or type(map.get(int(self.x - i), int(self.y)) == Wall):
+                    if type(map.get(int(self.x - i), int(self.y))) == Immortal_wall or type(map.get(int(self.x - i), int(self.y))) == Wall:
                         self.direction = 0
                         break
                     else:
@@ -158,6 +156,7 @@ class Unblinded_ghost(GameObject):
                         break
                     else:
                         self.direction = 1
+
         elif floor(self.x) == floor(pacman.x):
             if floor(self.y) > floor(pacman.y):
                 for i in range(int(abs(self.y - pacman.y))+1):
@@ -166,6 +165,7 @@ class Unblinded_ghost(GameObject):
                         break
                     else:
                         self.direction = 4
+
             else:
                 for i in range(int(abs(self.y - pacman.y))):
                     if type(map.get(int(self.x), int(self.y + i))) == Immortal_wall or type(map.get(int(self.x), int(self.y + i))) == Wall:
@@ -174,21 +174,8 @@ class Unblinded_ghost(GameObject):
                     else:
                         self.direction = 2
 
-
-
-
-
-
-
-
-
-
-
-        #if ((self.x == pacman.x) and (abs(self.y - pacman.y) <= 5)) or ((self.y == pacman.y) and (abs(self.x - pacman.x) <= 5)):
-            #self.direction = pacman.direction
-        #else:
-        #if self.tick % 20 == 0 or self.direction == 0:
-         #   self.direction = random.randint(1, 4)
+        if self.tick % 20 == 0 or self.direction == 0:
+            self.direction = random.randint(1, 4)
 
 
         if self.direction == 1:
