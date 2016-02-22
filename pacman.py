@@ -19,8 +19,8 @@ def game_over(): #FIXME
     game_over = pygame.image.load('./resources/game_over.png')
     if pacman.x == ghost.x and pacman.y == ghost.y:
         draw_background(screen, game_over)
-    #if pacman.x == ghost1.x and pacman.y == ghost1.y:
-        #draw_background(screen, game_over)
+    if pacman.x == ghost1.x and pacman.y == ghost1.y:
+        draw_background(screen, game_over)
 
 def draw_objects():
     for y in range(map_size):
@@ -52,8 +52,6 @@ class Map:
                 if type(self.get(x, y)) == Food:
                     count += 1
         return count
-
-
 
 
 
@@ -140,39 +138,16 @@ class Unblinded_ghost(GameObject):
 
     def game_tick(self):
         super(Unblinded_ghost, self).game_tick()
-
-
-
         if floor(self.y) == floor(pacman.y):
-            if (floor(self.x) > floor(pacman.x)):
-                for i in range(int(abs(self.x - pacman.x))+1):
-                    if type(map.get(int(self.x - i), int(self.y))) == Immortal_wall or type(map.get(int(self.x - i), int(self.y))) == Wall:
-                        self.direction = 0
-                        break
-                    else:
-                        self.direction = 3
+            if floor(self.x) > floor(pacman.x):
+                self.direction = 3
             else:
-                for i in range(int(abs(self.x - pacman.x))):
-                    if type(map.get(int(self.x + i), int(self.y))) == Immortal_wall or (type(map.get(int(self.x + i), int(self.y)))) == Wall:
-                        self.direction = 0
-                        break
-                    else:
-                        self.direction = 1
+                self.direction = 1
         elif floor(self.x) == floor(pacman.x):
             if floor(self.y) > floor(pacman.y):
-                for i in range(int(abs(self.y - pacman.y))+1):
-                    if type(map.get(int(self.x), int(self.y - i))) == Immortal_wall or type(map.get(int(self.x), int(self.y - i))) == Wall:
-                        self.direction = 0
-                        break
-                    else:
-                        self.direction = 4
+                self.direction = 4
             else:
-                for i in range(int(abs(self.y - pacman.y))):
-                    if type(map.get(int(self.x), int(self.y + i))) == Immortal_wall or type(map.get(int(self.x), int(self.y + i))) == Wall:
-                        self.direction = 0
-                        break
-                    else:
-                        self.direction = 2
+                self.direction = 2
 
 
 
@@ -317,9 +292,9 @@ if __name__ == '__main__':
     init_window()
     tile_size = 32
     map_size = 16
-    ghost = Unblinded_ghost(8, 10, tile_size, map_size)
-    ghost1 = Unblinded_ghost(8, 4, tile_size, map_size)
-    pacman = Pacman(5, 5, tile_size, map_size)
+    ghost = Unblinded_ghost(0, 7, tile_size, map_size)
+    ghost1 = Unblinded_ghost(15, 7, tile_size, map_size)
+    pacman = Pacman(9, 7, tile_size, map_size)
     f = open('map', 'r')
     txt = f.readlines()
     f.close()
