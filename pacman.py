@@ -60,6 +60,8 @@ class Map:
                     self.data[y][x] = Food(x, y)
                 elif txt[y][x] == 'X':
                     self.data[y][x] = Immortal_wall(x, y)
+                elif txt[y][x] == 'S':
+                    self.data[y][x] = Speed_bonus(x, y)
                 else:
                     self.data[y][x] = None
 
@@ -263,6 +265,10 @@ class Pacman(GameObject):
         if type(map.get(int(self.x), int(self.y))) == Wall:
             map.data[int(self.y)][int(self.x)] = None
 
+    #def eat_bonus(self):
+    #   if type(map.get(int(self.x), int(self.y))) == Speed_bonus:
+
+
     def game_tick(self):
         super(Pacman, self).game_tick()
         if self.direction == 1:
@@ -305,6 +311,11 @@ class Immortal_wall(GameObject):
 class Food(GameObject):
     def __init__(self, x, y, tile_size=32, map_size=16):
         GameObject.__init__(self, './resources/food.png', x, y, tile_size, map_size)
+
+
+class Speed_bonus(GameObject):
+    def __init__(self, x, y, tile_size=32, map_size=16):
+        GameObject.__init__(self, './resources/bonus.png', x, y, tile_size, map_size)
 
 
 def process_events(events, packman):
@@ -356,7 +367,7 @@ if __name__ == '__main__':
         unblinded_ghost_Marat.draw(screen)
         blind_ghost.draw(screen)
         you_win()
-        #you_lose()
+        you_lose()
         pygame.display.update()
 
 
