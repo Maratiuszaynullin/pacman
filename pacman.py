@@ -4,7 +4,6 @@ from pygame.locals import *
 from math import floor
 import random
 
-
 def init_window():
     pygame.init()
     pygame.display.set_mode((512, 512))
@@ -46,8 +45,12 @@ def you_lose(): #FIXME
     if floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost .y):
         game_over(lose_screen)
 
+
 class Map:
-    def __init__(self, txt, map_size = 16):
+    def __init__(self, filename):
+        f = open('map', 'r')
+        txt = f.readlines()
+        f.close()
         self.data = [[0]*(len(txt)) for i in range(len(txt))]
         for y in range(len(txt)):
             for x in range(len(txt)):
@@ -70,6 +73,7 @@ class Map:
                 if type(self.get(x, y)) == Food:
                     count += 1
         return count
+
 
 class GameObject(pygame.sprite.Sprite):
     def __init__(self, img, x, y, tile_size, map_size):
@@ -329,10 +333,9 @@ if __name__ == '__main__':
     unblinded_ghost_Marat = Unblinded_ghost(8, 4, tile_size, map_size)
     blind_ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
-    f = open('map', 'r') #FIXME perenesti v class Map, ostavit' tut tol'ko nasvanie otkrivaemoi karti
-    txt = f.readlines()
-    f.close()
-    map = Map(txt)
+
+
+    map = Map('map')
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
 
