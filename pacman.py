@@ -10,22 +10,6 @@ def init_window():
     pygame.display.set_mode((512, 512))
     pygame.display.set_caption('Pacman')
 
-def win():
-    if map.count_food() == 0:
-        you_win = pygame.image.load('./resources/you_win.png')
-        draw_background(screen, you_win)
-
-def game_over(): #FIXME
-    end_screen = pygame.image.load('./resources/game_over.png')
-    if (floor(pacman.x) == floor(unblinded_ghost_Marat.x)) and (floor(pacman.y) == floor(unblinded_ghost_Marat.y)):
-        unblinded_ghost_Marat.velocity = 0
-        unblinded_ghost_Ksenia.velocity = 0
-        blind_ghost.velocity = 0
-        pacman.velocity = 0
-        draw_background(screen, end_screen)
-    #if pacman.x == ghost1.x and pacman.y == ghost1.y:
-        #draw_background(screen, game_over)
-
 def draw_objects():
     for y in range(map_size):
         for x in range(map_size):
@@ -39,6 +23,28 @@ def draw_background(scr, img=None):
         bg = pygame.Surface(scr.get_size())
         bg.fill((128, 128, 128))
         scr.blit(bg, (0, 0))
+
+def game_over(img):
+    unblinded_ghost_Marat.velocity = 0
+    unblinded_ghost_Ksenia.velocity = 0
+    blind_ghost.velocity = 0
+    pacman.velocity = 0
+    draw_background(screen, img)
+
+def you_win():
+    win_screen = pygame.image.load('./resources/you_win.png')
+    if map.count_food() == 0:
+        game_over(win_screen)
+        draw_background(screen, win_screen)
+
+def you_lose(): #FIXME
+    lose_screen = pygame.image.load('./resources/game_over.png')
+    if (floor(pacman.x) == floor(unblinded_ghost_Marat.x)) and (floor(pacman.y) == floor(unblinded_ghost_Marat.y)):
+        game_over(lose_screen)
+    if floor(pacman.x) == floor(unblinded_ghost_Ksenia.x) and floor(pacman.y) == floor(unblinded_ghost_Ksenia .y):
+        game_over(lose_screen)
+    if floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost .y):
+        game_over(lose_screen)
 
 class Map:
     def __init__(self, txt, map_size = 16):
@@ -333,18 +339,21 @@ if __name__ == '__main__':
     while 1:
         process_events(pygame.event.get(), pacman)
         pygame.time.delay(100)
+
         unblinded_ghost_Ksenia.game_tick()
         unblinded_ghost_Marat.game_tick()
         blind_ghost.game_tick()
         pacman.game_tick()
+
         draw_background(screen, background)
         draw_objects()
-        pacman.draw(screen)
 
+        pacman.draw(screen)
         unblinded_ghost_Ksenia.draw(screen)
         unblinded_ghost_Marat.draw(screen)
         blind_ghost.draw(screen)
-        win()
-        game_over()
+        you_win()
+        you_lose()
         pygame.display.update()
+
 
