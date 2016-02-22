@@ -15,10 +15,10 @@ def win():
         you_win = pygame.image.load('./resources/you_win.png')
         draw_background(screen, you_win)
 
-#def game_over(): #FIXME
-    #game_over = pygame.image.load('./resources/game_over.png')
-    #if pacman.x == ghost.x and pacman.y == ghost.y:
-       # draw_background(screen, game_over)
+def game_over(): #FIXME
+    game_over = pygame.image.load('./resources/game_over.png')
+    if (floor(pacman.x) == floor(unblinded_ghost_Marat.x)) and (floor(pacman.y) == floor(unblinded_ghost_Marat.y)):
+        draw_background(screen, game_over)
     #if pacman.x == ghost1.x and pacman.y == ghost1.y:
         #draw_background(screen, game_over)
 
@@ -346,6 +346,6 @@ if __name__ == '__main__':
         unblinded_ghost_Marat.draw(screen)
         blind_ghost.draw(screen)
         win()
-       # game_over()
+        game_over()
         pygame.display.update()
 
