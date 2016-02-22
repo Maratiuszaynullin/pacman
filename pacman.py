@@ -8,18 +8,27 @@ from pygame.locals import *
 from math import floor
 import random
 
+
 def init_window():
+    """Create game's window."""
     pygame.init()
     pygame.display.set_mode((512, 512))
     pygame.display.set_caption('Pacman')
 
+
 def draw_objects():
+    """Draw all static objects
+    that are described in map.
+
+    """
     for y in range(map_size):
         for x in range(map_size):
             if map.get(x, y) != None:
                 map.get(x, y).draw(screen)
 
+
 def draw_background(scr, img=None):
+    """Draw background."""
     if img:
         scr.blit(img, (0, 0))
     else:
@@ -27,18 +36,30 @@ def draw_background(scr, img=None):
         bg.fill((128, 128, 128))
         scr.blit(bg, (0, 0))
 
+
 def game_over(img):
+    """When game is over,
+    stop all moving objects
+    and draw appropriate background.
+
+    """
     unblinded_ghost_Marat.velocity = 0
     unblinded_ghost_Ksenia.velocity = 0
     blind_ghost.velocity = 0
     pacman.velocity = 0
     draw_background(screen, img)
 
+
 def you_win():
+    """When pacman eat all food,
+    ends the game, using function game_over()
+    with you_win screen.
+
+    """
     win_screen = pygame.image.load('./resources/you_win.png')
     if map.count_food() == 0:
         game_over(win_screen)
-        draw_background(screen, win_screen)
+
 
 def you_lose(): #FIXME
     lose_screen = pygame.image.load('./resources/game_over.png')
