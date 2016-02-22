@@ -191,38 +191,38 @@ class Unblinded_ghost(GameObject):
             if type(map.get(int(self.x + self.velocity), int(self.y))) != Immortal_wall and type(map.get(int(self.x + self.velocity), int(self.y))) != Wall:
                 self.x += self.velocity
             else:
-                self.direction = random.randint(1, 4)
+                self.direction = random.randint(2, 4)
 
             if self.x >= self.map_size-1:
                 self.x = self.map_size-1
-                self.direction = random.randint(1, 4)
+                self.direction = random.randint(2, 4)
 
         elif self.direction == 2:
             if type(map.get(int(self.x), int(self.y + self.velocity))) != Immortal_wall and type(map.get(int(self.x), int(self.y + self.velocity))) != Wall:
                 self.y += self.velocity
             else:
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice((2, 3, 4))
             if self.y >= self.map_size-1:
                 self.y = self.map_size-1
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice((2, 3, 4))
 
         elif self.direction == 3:
             if type(map.get(int(self.x - self.velocity), int(self.y))) != Immortal_wall and type(map.get(int(self.x - self.velocity), int(self.y))) != Wall:
                 self.x -= self.velocity
             else:
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice((1, 2, 4))
             if self.x <= 0:
                 self.x = 0
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice((1, 2, 4))
 
         elif self.direction == 4:
             if type(map.get(int(self.x), int(self.y - self.velocity))) != Immortal_wall and type(map.get(int(self.x), int(self.y - self.velocity))) != Wall:
                 self.y -= self.velocity
             else:
-                self.direction = random.randint(1, 4)
+                self.direction = random.randint(1, 3)
             if self.y <= 0:
                 self.y = 0
-                self.direction = random.randint(1, 4)
+                self.direction = random.randint(1, 3)
 
         self.set_coord(self.x, self.y)
 
