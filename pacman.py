@@ -1,4 +1,8 @@
+# -*- coding: utf-8 -*-
 import sys
+reload(sys)
+import locale
+sys.setdefaultencoding(locale.getpreferredencoding())
 import pygame
 from pygame.locals import *
 from math import floor
@@ -64,7 +68,7 @@ class Map:
                     self.data[y][x] = None
 
     def get(self, x, y):
-        return self.data[y][x]
+        return self.data[int(y)][int(x)]
 
     def count_food(self):
         count = 0
@@ -98,6 +102,14 @@ class GameObject(pygame.sprite.Sprite):
     def draw(self, scr):
         scr.blit(self.image, (self.screen_rect.x, self.screen_rect.y))
 
+#def is_Immortal_wall(wall_x, wall_y):
+ #   if type(map.get(int(wall_x)), int(wall_y)) == Immortal_wall:
+  #      return 1
+   # else:
+    #    return 0
+
+
+
 #FIXME proverky na nalichie sten sdelat' function v class Ghost, Inblinded_ghost, Pacman
 class Ghost(GameObject):
     def __init__(self, x, y, tile_size, map_size):
@@ -110,8 +122,11 @@ class Ghost(GameObject):
         if self.tick % 20 == 0 or self.direction == 0:
             self.direction = random.randint(1, 4)
 
+        #if self.direction == 1:
+         #   if isinstance(a,b) #сравнивает a(объект из мапы с кордами x y) c b(с чем сравнивать, со стеной, с неразрушимой стеной и тд
+
         if self.direction == 1:
-            if type(map.get(int(self.x + self.velocity), int(self.y))) != Immortal_wall and type(map.get(int(self.x + self.velocity), int(self.y))) != Wall:
+            if type(map.get(self.x + self.velocity, self.y)) != Immortal_wall and type(map.get(self.x + self.velocity, self.y)) != Wall:
                 self.x += self.velocity
             else:
                 self.direction = random.randint(1, 4)
@@ -121,7 +136,7 @@ class Ghost(GameObject):
                 self.direction = random.randint(1, 4)
 
         elif self.direction == 2:
-            if type(map.get(int(self.x), int(self.y + self.velocity))) != Immortal_wall and type(map.get(int(self.x), int(self.y + self.velocity))) != Wall:
+            if type(map.get((self.x), (self.y + self.velocity))) != Immortal_wall and type(map.get((self.x), (self.y + self.velocity))) != Wall:
                 self.y += self.velocity
             else:
                 self.direction = random.randint(1, 4)
@@ -130,7 +145,7 @@ class Ghost(GameObject):
                 self.direction = random.randint(1, 4)
 
         elif self.direction == 3:
-            if type(map.get(int(self.x - self.velocity), int(self.y))) != Immortal_wall and type(map.get(int(self.x - self.velocity), int(self.y))) != Wall:
+            if type(map.get((self.x - self.velocity), (self.y))) != Immortal_wall and type(map.get((self.x - self.velocity), (self.y))) != Wall:
                 self.x -= self.velocity
             else:
                 self.direction = random.randint(1, 4)
@@ -139,7 +154,7 @@ class Ghost(GameObject):
                 self.direction = random.randint(1, 4)
 
         elif self.direction == 4:
-            if type(map.get(int(self.x), int(self.y - self.velocity))) != Immortal_wall and type(map.get(int(self.x), int(self.y - self.velocity))) != Wall:
+            if type(map.get((self.x), (self.y - self.velocity))) != Immortal_wall and type(map.get((self.x), (self.y - self.velocity))) != Wall:
                 self.y -= self.velocity
             else:
                 self.direction = random.randint(1, 4)
@@ -356,7 +371,7 @@ if __name__ == '__main__':
         unblinded_ghost_Marat.draw(screen)
         blind_ghost.draw(screen)
         you_win()
-        #you_lose()
+        you_lose()
         pygame.display.update()
 
 
