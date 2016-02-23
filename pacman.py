@@ -51,7 +51,7 @@ def game_over(img):
 
 
 def you_win():
-    """When pacman eat all food,
+    """When pacman has eaten all food,
     ends the game, using function game_over()
     with you_win screen.
 
@@ -61,7 +61,12 @@ def you_win():
         game_over(win_screen)
 
 
-def you_lose(): #FIXME
+def you_lose():
+    """When pacman has met ghost,
+    ends the game, using function game_over()
+    with game_over screen.
+
+    """
     lose_screen = pygame.image.load('./resources/game_over.png')
     if (floor(pacman.x) == floor(unblinded_ghost_Marat.x)) and (floor(pacman.y) == floor(unblinded_ghost_Marat.y)):
         game_over(lose_screen)
@@ -72,6 +77,7 @@ def you_lose(): #FIXME
 
 
 class Map:
+    """
     def __init__(self, filename):
         f = open('map', 'r')
         txt = f.readlines()
