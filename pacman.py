@@ -1,23 +1,23 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 import sys
+reload(sys)
+import locale
+sys.setdefaultencoding(locale.getpreferredencoding())
 import pygame
 from pygame.locals import *
 from math import floor
 import random
 
-#dfdfфвавава
 def init_window():
     pygame.init()
     pygame.display.set_mode((512, 512))
     pygame.display.set_caption('Pacman')
-
 
 def draw_objects():
     for y in range(map_size):
         for x in range(map_size):
             if map.get(x, y) != None:
                 map.get(x, y).draw(screen)
-
 
 def draw_background(scr, img=None):
     if img:
@@ -27,7 +27,6 @@ def draw_background(scr, img=None):
         bg.fill((128, 128, 128))
         scr.blit(bg, (0, 0))
 
-
 def game_over(img):
     unblinded_ghost_Marat.velocity = 0
     unblinded_ghost_Ksenia.velocity = 0
@@ -35,13 +34,11 @@ def game_over(img):
     pacman.velocity = 0
     draw_background(screen, img)
 
-
 def you_win():
     win_screen = pygame.image.load('./resources/you_win.png')
     if map.count_food() == 0:
         game_over(win_screen)
         draw_background(screen, win_screen)
-
 
 def you_lose(): #FIXME
     lose_screen = pygame.image.load('./resources/game_over.png')
@@ -55,7 +52,7 @@ def you_lose(): #FIXME
 
 class Map:
     def __init__(self, filename):
-        f = open(filename, 'r')
+        f = open('map', 'r')
         txt = f.readlines()
         f.close()
         self.data = [[0]*(len(txt)) for i in range(len(txt))]
@@ -73,7 +70,7 @@ class Map:
                     self.data[y][x] = None
 
     def get(self, x, y):
-        return self.data[int(y)][int(x)]  #чем округлять?
+        return self.data[int(y)][int(x)]
 
     def count_food(self):
         count = 0
@@ -114,10 +111,8 @@ class GameObject(pygame.sprite.Sprite):
     #    return 0
 
 
-#def is_wall(x,y):
-    #return isinstance(map[x][y], Wall)
 
-
+#FIXME proverky na nalichie sten sdelat' function v class Ghost, Inblinded_ghost, Pacman
 class Ghost(GameObject):
     def __init__(self, x, y, tile_size, map_size):
         GameObject.__init__(self, './resources/ghost.png', x, y, tile_size, map_size)
@@ -128,6 +123,9 @@ class Ghost(GameObject):
         super(Ghost, self).game_tick()
         if self.tick % 20 == 0 or self.direction == 0:
             self.direction = random.randint(1, 4)
+
+        #if self.direction == 1:
+         #   if isinstance(a,b) #сравнивает a(объект из мапы с кордами x y) c b(с чем сравнивать, со стеной, с неразрушимой стеной и тд
 
         if self.direction == 1:
             if type(map.get(self.x + self.velocity, self.y)) != Immortal_wall and type(map.get(self.x + self.velocity, self.y)) != Wall:
@@ -262,8 +260,16 @@ class Pacman(GameObject):
         self.image = './resources/pacman_right.png'
         GameObject.__init__(self, self.image, x, y, tile_size, map_size)
 
-    def set_direction_image(self, direction):
-        self.image = img_direction[direction]
+
+    def direction_image(self, direction):
+        if direction == 1:
+            self.image = pygame.image.load('./resources/pacman_right.png')
+        elif self.direction == 2:
+            self.image = pygame.image.load('./resources/pacman_down.png')
+        elif self.direction == 3:
+            self.image = pygame.image.load('./resources/pacman_left.png')
+        elif self.direction == 4:
+            self.image = pygame.image.load('./resources/pacman_up.png')
 
 
     def eat_food(self):
@@ -303,7 +309,7 @@ class Pacman(GameObject):
 
         self.eat_food()
         self.crush_wall()
-        self.set_direction_image(self.direction)
+        self.direction_image(self.direction)
         self.set_coord(self.x, self.y)
 
 
@@ -349,15 +355,13 @@ if __name__ == '__main__':
     tile_size = 32
     map_size = 16
 
-    img_direction = [pygame.image.load('./resources/pacman_right.png'), pygame.image.load('./resources/pacman_right.png'), pygame.image.load('./resources/pacman_down.png'), pygame.image.load('./resources/pacman_left.png'), pygame.image.load('./resources/pacman_up.png')]
-
     unblinded_ghost_Ksenia = Unblinded_ghost(8, 10, tile_size, map_size)
     unblinded_ghost_Marat = Unblinded_ghost(8, 4, tile_size, map_size)
     blind_ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
 
 
-    map = Map('./maps/map')
+    map = Map('map')
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
 
