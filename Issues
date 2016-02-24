@@ -21,10 +21,10 @@
 
 - 6. class Ghost game_tick() для облегчения задачи тестирования организовать в отдельную функцию логику поведения призрака
 
-- 7. type() не использовать. Организовать работу Is instance(map[x][y], wall)
+- 7.  type() не использовать. Организовать работу Isinstance(map[x][y], wall)
 разобраться с длинными строками
 
-- 8. Проектирование. Иерархия. MovingObjects, StaticObjects - наследники GameObjects.
+- 8.  Проектирование. Иерархия. MovingObjects, StaticObjects - наследники GameObjects.
 Food, Wall - наследники StaticObjects, ImmortalWall, EatableWall - наследники Wall.
 Разделить по ним имеющиеся объекты
 
