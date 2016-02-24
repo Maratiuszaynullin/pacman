@@ -1,5 +1,6 @@
 # coding: utf-8
 from textures import *
+"""готово все, кроме рун. Остальное адекватно работает исправлять и добавлять пока не надо"""
 
 
 class StaticObject(pygame.sprite.Sprite):
@@ -41,12 +42,3 @@ class Food(StaticObject):
 
 class Rune(StaticObject):  #руны - модификаторы поведения пакмана
     pass
-
-
-
-
-
-
-
-
-

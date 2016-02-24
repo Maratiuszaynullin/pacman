@@ -1,5 +1,6 @@
 # coding: utf-8
 from static_object import *
+"""изменить каунт для еды"""
 
 
 class Map:
@@ -7,7 +8,7 @@ class Map:
         f = open(filename, 'r')
         txt = f.readlines()
         f.close()
-        self.data = [[0]*(len(txt)) for i in range(len(txt))]
+        self.data = [[0] * (len(txt)) for i in range(len(txt))]
         for y in range(len(txt)):
             for x in range(len(txt)):
                 if txt[y][x] == 'O':
@@ -16,8 +17,8 @@ class Map:
                     self.data[y][x] = Food(x, y)
                 elif txt[y][x] == 'X':
                     self.data[y][x] = SolidWall(x, y)
-                #elif txt[y][x] == 'S':
-                    #self.data[y][x] = Speed_bonus(x, y)
+                    # elif txt[y][x] == 'S':
+                    # self.data[y][x] = Speed_bonus(x, y)
                 else:
                     self.data[y][x] = None
 

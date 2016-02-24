@@ -1,6 +1,8 @@
 # coding: utf-8
 from dynamic_object import *
 from map import *
+"""все работает, может быть нужно будет дополнить некоторыми функциями"""
+
 
 def init_window():
     pygame.init()
@@ -41,17 +43,7 @@ def process_events(events, pac):
                 pac.direction = 0
 
 
-if __name__ == '__main__':
-    tile_size = 32
-    map_size = 16
-
-    init_window()
-    #unblinded_ghost = UnblindedGhost(8, 4)
-    blind_ghost = BlindGhost(1, 1)
-    pacman = Pacman(8, 8)
-    background = pygame.image.load("./resources/background.png")
-    screen = pygame.display.get_surface()
-    while 1:
+def one_step():
         process_events(pygame.event.get(), pacman)
         pygame.time.delay(100)
         #unblinded_ghost.game_tick()
@@ -63,3 +55,16 @@ if __name__ == '__main__':
         #unblinded_ghost.draw(screen)
         blind_ghost.draw(screen)
         pygame.display.update()
+
+
+if __name__ == '__main__':
+    tile_size = 32
+    map_size = 16
+    init_window()
+    #unblinded_ghost = UnblindedGhost(8, 4)
+    blind_ghost = BlindGhost(7, 1)
+    pacman = Pacman(8, 8)
+    background = pygame.image.load("./resources/background.png")
+    screen = pygame.display.get_surface()
+    while 1:
+        one_step()

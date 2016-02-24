@@ -5,8 +5,7 @@ from math import floor
 import random
 tile_size = 32
 map_size = 16
-
-
+"""все работает, только добавлены не все текстуры, и причем все текстуры стоит перерисовать"""
 
 class Textures:
     def __init__(self):
@@ -17,4 +16,3 @@ class Textures:
     solid_wall = pygame.image.load('./resources/immortal_wall.png')
     fragile_wall = pygame.image.load('./resources/wall.png')
     food = pygame.image.load('./resources/food.png')
-

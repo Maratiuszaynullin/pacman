@@ -2,6 +2,38 @@
 from map import *
 
 
+def is_solid_wall(x, y):
+    return isinstance(MAP.data[int(x)][int(y)], SolidWall)
+
+
+def is_fragile_wall(x, y):
+    return isinstance(MAP.data[int(x)][int(y)], FragileWall)
+
+
+def is_wall(x, y):
+    return isinstance(MAP.data[int(x)][int(y)], FragileWall or SolidWall)
+
+
+def ghost_wall_react(x, y, v):
+    wall_cords = {1:[x + v, y], 2:[x, y + v], 3:[x - v], 4:[x, y - v]}
+    direction = 0
+    for i in range(1, 5):
+        for j in range(1, 5):
+            for k in range(1, 5):
+                if is_wall(wall_cords[i], wall_cords[i]) and is_wall(wall_cords[j], wall_cords[j]) and is_wall(wall_cords[k], wall_cords[k]):
+                    #временное решение, но тоже норм
+                    ii = wall_cords[i]
+                    jj = wall_cords[j]
+                    kk = wall_cords[k]
+                    if ii == jj:
+                        if ii == kk: del ii
+                        else: del ii, kk
+                    elif jj == kk: del ii, jj
+                    else: del ii, jj, kk
+                    direction = random.choice(wall_cords)
+                #else: direction = 0
+    return direction
+
 
 class DynamicObject(pygame.sprite.Sprite):
     def __init__(self, img, x, y):
@@ -25,10 +57,6 @@ class DynamicObject(pygame.sprite.Sprite):
         scr.blit(self.image, (self.screen_rect.x, self.screen_rect.y))
 
 
-class Ghost(DynamicObject):
-    pass
-
-
 class BlindGhost(DynamicObject):
     def __init__(self, x, y):
         DynamicObject.__init__(self, Textures.blind_ghost, x, y)
@@ -40,50 +68,19 @@ class BlindGhost(DynamicObject):
         if self.tick % 20 == 0 or self.direction == 0:
             self.direction = random.randint(1, 4)
         print(self.tick)
+        self.direction = ghost_wall_react(self.x, self.y, self.velocity)
         if self.direction == 1:
-            if type(MAP.get(self.x + self.velocity, self.y)) != SolidWall and type(
-                    MAP.get(self.x + self.velocity, self.y)) != FragileWall:
-                self.x += self.velocity
-            else:
-                self.direction = random.randint(1, 4)
-
-            if self.x >= map_size - 1:
-                self.x = map_size - 1
-                self.direction = random.randint(1, 4)
-
-        elif self.direction == 2:
-            if type(MAP.get((self.x), (self.y + self.velocity))) != SolidWall and type(
-                    MAP.get((self.x), (self.y + self.velocity))) != FragileWall:
-                self.y += self.velocity
-            else:
-                self.direction = random.randint(1, 4)
-            if self.y >= map_size - 1:
-                self.y = map_size - 1
-                self.direction = random.randint(1, 4)
-
-        elif self.direction == 3:
-            if type(MAP.get((self.x - self.velocity), (self.y))) != SolidWall and type(
-                    MAP.get((self.x - self.velocity), (self.y))) != FragileWall:
-                self.x -= self.velocity
-            else:
-                self.direction = random.randint(1, 4)
-            if self.x <= 0:
-                self.x = 0
-                self.direction = random.randint(1, 4)
-
-        elif self.direction == 4:
-            if type(MAP.get((self.x), (self.y - self.velocity))) != SolidWall and type(
-                    MAP.get((self.x), (self.y - self.velocity))) != FragileWall:
-                self.y -= self.velocity
-            else:
-                self.direction = random.randint(1, 4)
-            if self.y <= 0:
-                self.y = 0
-                self.direction = random.randint(1, 4)
+            self.x += self.velocity
+        if self.direction == 2:
+            self.y += self.velocity
+        if self.direction == 3:
+            self.x -= self.velocity
+        if self.direction == 4:
+            self.y -= self.velocity
         self.set_coord(self.x, self.y)
 
 
-class UnblindedGhost(Ghost):
+class UnblindedGhost(DynamicObject):
     def __init__(self, x, y):
         DynamicObject.__init__(self, Textures.unblinded_ghost, x, y)
 
@@ -99,13 +96,13 @@ class Pacman(DynamicObject):
         if self.direction == 1:
             if type(MAP.get(int(self.x + self.velocity), int(self.y))) != SolidWall:
                 self.x += self.velocity
-            if self.x >= map_size-1:
-                self.x = map_size-1
+            if self.x >= map_size - 1:
+                self.x = map_size - 1
         elif self.direction == 2:
             if type(MAP.get(int(self.x), int(self.y + self.velocity))) != SolidWall:
                 self.y += self.velocity
-            if self.y >= map_size-1:
-                self.y = map_size-1
+            if self.y >= map_size - 1:
+                self.y = map_size - 1
         elif self.direction == 3:
             if type(MAP.get(int(self.x - self.velocity), int(self.y))) != SolidWall:
                 self.x -= self.velocity
