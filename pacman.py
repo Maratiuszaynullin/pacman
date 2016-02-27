@@ -1,23 +1,28 @@
 # -*- coding: utf-8 -*-
 import sys
+
 reload(sys)
 import locale
+
 sys.setdefaultencoding(locale.getpreferredencoding())
 import pygame
 from pygame.locals import *
 from math import floor
 import random
 
+
 def init_window():
     pygame.init()
     pygame.display.set_mode((512, 512))
     pygame.display.set_caption('Pacman')
+
 
 def draw_objects():
     for y in range(map_size):
         for x in range(map_size):
             if map.get(x, y) != None:
                 map.get(x, y).draw(screen)
+
 
 def draw_background(scr, img=None):
     if img:
@@ -27,6 +32,7 @@ def draw_background(scr, img=None):
         bg.fill((128, 128, 128))
         scr.blit(bg, (0, 0))
 
+
 def game_over(img):
     unblinded_ghost_Marat.velocity = 0
     unblinded_ghost_Ksenia.velocity = 0
@@ -34,19 +40,21 @@ def game_over(img):
     pacman.velocity = 0
     draw_background(screen, img)
 
+
 def you_win():
     win_screen = pygame.image.load('./resources/you_win.png')
     if map.count_food() == 0:
         game_over(win_screen)
         draw_background(screen, win_screen)
 
-def you_lose(): #FIXME
+
+def you_lose():  # FIXME
     lose_screen = pygame.image.load('./resources/game_over.png')
     if (floor(pacman.x) == floor(unblinded_ghost_Marat.x)) and (floor(pacman.y) == floor(unblinded_ghost_Marat.y)):
         game_over(lose_screen)
-    if floor(pacman.x) == floor(unblinded_ghost_Ksenia.x) and floor(pacman.y) == floor(unblinded_ghost_Ksenia .y):
+    if floor(pacman.x) == floor(unblinded_ghost_Ksenia.x) and floor(pacman.y) == floor(unblinded_ghost_Ksenia.y):
         game_over(lose_screen)
-    if floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost .y):
+    if floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost.y):
         game_over(lose_screen)
 
 
@@ -55,7 +63,7 @@ class Map:
         f = open('map', 'r')
         txt = f.readlines()
         f.close()
-        self.data = [[0]*(len(txt)) for i in range(len(txt))]
+        self.data = [[0] * (len(txt)) for i in range(len(txt))]
         for y in range(len(txt)):
             for x in range(len(txt)):
                 if txt[y][x] == 'O':
@@ -96,7 +104,7 @@ class GameObject(pygame.sprite.Sprite):
     def set_coord(self, x, y):
         self.x = x
         self.y = y
-        self.screen_rect = Rect(floor(x) * self.tile_size, floor(y) * self.tile_size, self.tile_size, self.tile_size )
+        self.screen_rect = Rect(floor(x) * self.tile_size, floor(y) * self.tile_size, self.tile_size, self.tile_size)
 
     def game_tick(self):
         self.tick += 1
@@ -104,15 +112,14 @@ class GameObject(pygame.sprite.Sprite):
     def draw(self, scr):
         scr.blit(self.image, (self.screen_rect.x, self.screen_rect.y))
 
-#def is_Immortal_wall(wall_x, wall_y):
- #   if type(map.get(int(wall_x)), int(wall_y)) == Immortal_wall:
-  #      return 1
-   # else:
-    #    return 0
+        # def is_Immortal_wall(wall_x, wall_y):
+        #   if type(map.get(int(wall_x)), int(wall_y)) == Immortal_wall:
+        #      return 1
+        # else:
+        #    return 0
 
 
-
-#FIXME proverky na nalichie sten sdelat' function v class Ghost, Inblinded_ghost, Pacman
+# FIXME proverky na nalichie sten sdelat' function v class Ghost, Inblinded_ghost, Pacman
 class Ghost(GameObject):
     def __init__(self, x, y, tile_size, map_size):
         GameObject.__init__(self, './resources/ghost.png', x, y, tile_size, map_size)
@@ -124,30 +131,33 @@ class Ghost(GameObject):
         if self.tick % 20 == 0 or self.direction == 0:
             self.direction = random.randint(1, 4)
 
-        #if self.direction == 1:
-         #   if isinstance(a,b) #сравнивает a(объект из мапы с кордами x y) c b(с чем сравнивать, со стеной, с неразрушимой стеной и тд
+            # if self.direction == 1:
+            #   if isinstance(a,b) #сравнивает a(объект из мапы с кордами x y) c b(с чем сравнивать, со стеной, с неразрушимой стеной и тд
 
         if self.direction == 1:
-            if type(map.get(self.x + self.velocity, self.y)) != Immortal_wall and type(map.get(self.x + self.velocity, self.y)) != Wall:
+            if type(map.get(self.x + self.velocity, self.y)) != Immortal_wall and type(
+                    map.get(self.x + self.velocity, self.y)) != Wall:
                 self.x += self.velocity
             else:
                 self.direction = random.randint(1, 4)
 
-            if self.x >= self.map_size-1:
-                self.x = self.map_size-1
+            if self.x >= self.map_size - 1:
+                self.x = self.map_size - 1
                 self.direction = random.randint(1, 4)
 
         elif self.direction == 2:
-            if type(map.get((self.x), (self.y + self.velocity))) != Immortal_wall and type(map.get((self.x), (self.y + self.velocity))) != Wall:
+            if type(map.get((self.x), (self.y + self.velocity))) != Immortal_wall and type(
+                    map.get((self.x), (self.y + self.velocity))) != Wall:
                 self.y += self.velocity
             else:
                 self.direction = random.randint(1, 4)
-            if self.y >= self.map_size-1:
-                self.y = self.map_size-1
+            if self.y >= self.map_size - 1:
+                self.y = self.map_size - 1
                 self.direction = random.randint(1, 4)
 
         elif self.direction == 3:
-            if type(map.get((self.x - self.velocity), (self.y))) != Immortal_wall and type(map.get((self.x - self.velocity), (self.y))) != Wall:
+            if type(map.get((self.x - self.velocity), (self.y))) != Immortal_wall and type(
+                    map.get((self.x - self.velocity), (self.y))) != Wall:
                 self.x -= self.velocity
             else:
                 self.direction = random.randint(1, 4)
@@ -156,7 +166,8 @@ class Ghost(GameObject):
                 self.direction = random.randint(1, 4)
 
         elif self.direction == 4:
-            if type(map.get((self.x), (self.y - self.velocity))) != Immortal_wall and type(map.get((self.x), (self.y - self.velocity))) != Wall:
+            if type(map.get((self.x), (self.y - self.velocity))) != Immortal_wall and type(
+                    map.get((self.x), (self.y - self.velocity))) != Wall:
                 self.y -= self.velocity
             else:
                 self.direction = random.randint(1, 4)
@@ -177,15 +188,17 @@ class Unblinded_ghost(GameObject):
 
         if floor(self.y) == floor(pacman.y):
             if (floor(self.x) > floor(pacman.x)):
-                for i in range(int(abs(self.x - pacman.x))+1):
-                    if type(map.get(int(self.x - i), int(self.y))) == Immortal_wall or type(map.get(int(self.x - i), int(self.y))) == Wall:
+                for i in range(int(abs(self.x - pacman.x)) + 1):
+                    if type(map.get(int(self.x - i), int(self.y))) == Immortal_wall or type(
+                            map.get(int(self.x - i), int(self.y))) == Wall:
                         self.direction = 0
                         break
                     else:
                         self.direction = 3
             else:
                 for i in range(int(abs(self.x - pacman.x))):
-                    if type(map.get(int(self.x + i), int(self.y))) == Immortal_wall or type(map.get(int(self.x + i), int(self.y))) == Wall:
+                    if type(map.get(int(self.x + i), int(self.y))) == Immortal_wall or type(
+                            map.get(int(self.x + i), int(self.y))) == Wall:
                         self.direction = 0
                         break
                     else:
@@ -193,8 +206,9 @@ class Unblinded_ghost(GameObject):
 
         elif floor(self.x) == floor(pacman.x):
             if floor(self.y) > floor(pacman.y):
-                for i in range(int(abs(self.y - pacman.y))+1):
-                    if type(map.get(int(self.x), int(self.y - i))) == Immortal_wall or type(map.get(int(self.x), int(self.y - i))) == Wall:
+                for i in range(int(abs(self.y - pacman.y)) + 1):
+                    if type(map.get(int(self.x), int(self.y - i))) == Immortal_wall or type(
+                            map.get(int(self.x), int(self.y - i))) == Wall:
                         self.direction = 0
                         break
                     else:
@@ -202,38 +216,40 @@ class Unblinded_ghost(GameObject):
 
             else:
                 for i in range(int(abs(self.y - pacman.y))):
-                    if type(map.get(int(self.x), int(self.y + i))) == Immortal_wall or type(map.get(int(self.x), int(self.y + i))) == Wall:
+                    if type(map.get(int(self.x), int(self.y + i))) == Immortal_wall or type(
+                            map.get(int(self.x), int(self.y + i))) == Wall:
                         self.direction = 0
                         break
                     else:
                         self.direction = 2
 
-
         if self.direction == 0:
             self.direction = random.randint(1, 4)
 
-
         if self.direction == 1:
-            if type(map.get(int(self.x + self.velocity), int(self.y))) != Immortal_wall and type(map.get(int(self.x + self.velocity), int(self.y))) != Wall:
+            if type(map.get(int(self.x + self.velocity), int(self.y))) != Immortal_wall and type(
+                    map.get(int(self.x + self.velocity), int(self.y))) != Wall:
                 self.x += self.velocity
             else:
                 self.direction = random.randint(2, 4)
 
-            if self.x >= self.map_size-1:
-                self.x = self.map_size-1
+            if self.x >= self.map_size - 1:
+                self.x = self.map_size - 1
                 self.direction = random.randint(2, 4)
 
         elif self.direction == 2:
-            if type(map.get(int(self.x), int(self.y + self.velocity))) != Immortal_wall and type(map.get(int(self.x), int(self.y + self.velocity))) != Wall:
+            if type(map.get(int(self.x), int(self.y + self.velocity))) != Immortal_wall and type(
+                    map.get(int(self.x), int(self.y + self.velocity))) != Wall:
                 self.y += self.velocity
             else:
                 self.direction = random.choice((2, 3, 4))
-            if self.y >= self.map_size-1:
-                self.y = self.map_size-1
+            if self.y >= self.map_size - 1:
+                self.y = self.map_size - 1
                 self.direction = random.choice((2, 3, 4))
 
         elif self.direction == 3:
-            if type(map.get(int(self.x - self.velocity), int(self.y))) != Immortal_wall and type(map.get(int(self.x - self.velocity), int(self.y))) != Wall:
+            if type(map.get(int(self.x - self.velocity), int(self.y))) != Immortal_wall and type(
+                    map.get(int(self.x - self.velocity), int(self.y))) != Wall:
                 self.x -= self.velocity
             else:
                 self.direction = random.choice((1, 2, 4))
@@ -242,7 +258,8 @@ class Unblinded_ghost(GameObject):
                 self.direction = random.choice((1, 2, 4))
 
         elif self.direction == 4:
-            if type(map.get(int(self.x), int(self.y - self.velocity))) != Immortal_wall and type(map.get(int(self.x), int(self.y - self.velocity))) != Wall:
+            if type(map.get(int(self.x), int(self.y - self.velocity))) != Immortal_wall and type(
+                    map.get(int(self.x), int(self.y - self.velocity))) != Wall:
                 self.y -= self.velocity
             else:
                 self.direction = random.randint(1, 3)
@@ -260,7 +277,6 @@ class Pacman(GameObject):
         self.image = './resources/pacman_right.png'
         GameObject.__init__(self, self.image, x, y, tile_size, map_size)
 
-
     def direction_image(self, direction):
         if direction == 1:
             self.image = pygame.image.load('./resources/pacman_right.png')
@@ -271,7 +287,6 @@ class Pacman(GameObject):
         elif self.direction == 4:
             self.image = pygame.image.load('./resources/pacman_up.png')
 
-
     def eat_food(self):
         if type(map.get(int(self.x), int(self.y))) == Food:
             map.data[int(self.y)][int(self.x)] = None
@@ -280,7 +295,7 @@ class Pacman(GameObject):
         if type(map.get(int(self.x), int(self.y))) == Wall:
             map.data[int(self.y)][int(self.x)] = None
 
-    #def eat_bonus(self):
+    # def eat_bonus(self):
     #   if type(map.get(int(self.x), int(self.y))) == Speed_bonus:
 
 
@@ -289,13 +304,13 @@ class Pacman(GameObject):
         if self.direction == 1:
             if type(map.get(int(self.x + self.velocity), int(self.y))) != Immortal_wall:
                 self.x += self.velocity
-            if self.x >= self.map_size-1:
-                self.x = self.map_size-1
+            if self.x >= self.map_size - 1:
+                self.x = self.map_size - 1
         elif self.direction == 2:
             if type(map.get(int(self.x), int(self.y + self.velocity))) != Immortal_wall:
                 self.y += self.velocity
-            if self.y >= self.map_size-1:
-                self.y = self.map_size-1
+            if self.y >= self.map_size - 1:
+                self.y = self.map_size - 1
         elif self.direction == 3:
             if type(map.get(int(self.x - self.velocity), int(self.y))) != Immortal_wall:
                 self.x -= self.velocity
@@ -349,7 +364,8 @@ def process_events(events, packman):
             elif event.key == K_SPACE:
                 packman.direction = 0
 
-#FIXME sdelat' creator dlya ghosts
+
+# FIXME sdelat' creator dlya ghosts
 if __name__ == '__main__':
     init_window()
     tile_size = 32
@@ -359,7 +375,6 @@ if __name__ == '__main__':
     unblinded_ghost_Marat = Unblinded_ghost(8, 4, tile_size, map_size)
     blind_ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
-
 
     map = Map('map')
     background = pygame.image.load("./resources/background.png")
@@ -384,5 +399,3 @@ if __name__ == '__main__':
         you_win()
         you_lose()
         pygame.display.update()
-
-

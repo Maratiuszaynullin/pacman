@@ -62,8 +62,8 @@ if __name__ == '__main__':
     map_size = 16
     init_window()
     #unblinded_ghost = UnblindedGhost(8, 4)
-    blind_ghost = BlindGhost(7, 1)
-    pacman = Pacman(8, 8)
+    blind_ghost = BlindGhost(5, 11)
+    pacman = Pacman(5, 8)
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
     while 1:
