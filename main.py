@@ -48,17 +48,17 @@ def tick_timer(x = 0):
 
 
 def game_tick():
-        process_events(pygame.event.get(), pacman)
-        pygame.time.delay(100)
-        draw_background(screen, background)
-        #unblinded_ghost.game_tick()
-        #unblinded_ghost.draw(screen)
-        blind_ghost.game_tick()
-        blind_ghost.draw(screen)
-        pacman.game_tick()
-        draw_objects()
-        pacman.draw(screen)
-        pygame.display.update()
+    process_events(pygame.event.get(), pacman)
+    pygame.time.delay(100)
+    draw_background(screen, background)
+    #unblinded_ghost.game_tick()
+    #unblinded_ghost.draw(screen)
+    blind_ghost.game_tick()
+    blind_ghost.draw(screen)
+    pacman.game_tick()
+    draw_objects()
+    pacman.draw(screen)
+    pygame.display.update()
 
 
 if __name__ == '__main__':

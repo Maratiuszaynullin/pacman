@@ -202,10 +202,10 @@ class Pacman(DynamicObject):
         if isinstance(MAP.data[int(self.y)][int(self.x)], Elixir):
             MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'elixir'
-            self.bonus_time = 10
-        #if isinstance(MAP.data[int(self.y)][int(self.x)], Sword):
-        #   MAP.data[int(self.y)][int(self.x)] = None
-         #   self.bonus = 'sword'
+            self.bonus_time = 70
+        if isinstance(MAP.data[int(self.y)][int(self.x)], Sword):
+            MAP.data[int(self.y)][int(self.x)] = None
+            self.bonus = 'sword'
 
     def crush_wall(self):
         if is_fragile_wall(self.x, self.y):
@@ -216,9 +216,15 @@ class Pacman(DynamicObject):
             if is_solid_wall(self.x, self.y):
                 MAP.data[int(self.y)][int(self.x)] = None
                 self.bonus = None
-        if self.bonus == 'elixir' and self.bonus_time != 0:
-            self.velocity = 8.0 / 10.0
-            self.bonus_time -= 1
+        if self.bonus == 'elixir':
+            if self.bonus_time != 0:
+                self.velocity = 8.0 / 10.0
+                self.bonus_time -= 1
+            else:
+                self.bonus = None
+                self.velocity = 4.0 / 10.0
+        #if self.bonus == 'sword':
+        #    if self.x ==
 
     def game_tick(self):
         super(Pacman, self).game_tick()
@@ -250,7 +256,6 @@ class Pacman(DynamicObject):
                 self.y -= self.velocity
             if self.y <= 0:
                 self.y = 0
-
 
 
         self.eat()
