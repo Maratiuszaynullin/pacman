@@ -181,6 +181,7 @@ class UnblindedGhost(DynamicObject):
         self.set_coord(self.x, self.y)
 
 
+    
 class Pacman(DynamicObject):
     def __init__(self, x, y):
         DynamicObject.__init__(self, Textures.pacman, x, y)
