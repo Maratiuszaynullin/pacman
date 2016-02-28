@@ -1,9 +1,6 @@
-# coding: utf-8
-import sys
 import pygame
-from pygame.locals import *
-from math import floor
-import random
+
+
 tile_size = 32
 map_size = 16
 
@@ -20,5 +17,5 @@ class Textures:
     fragile_wall = pygame.image.load('./resources/wall.png')
     food = pygame.image.load('./resources/food.png')
     pickaxe = pygame.image.load('./resources/pickaxe.png')
-    #sword = pygame.image.load('./resources/sword.png')
+    sword = pygame.image.load('./resources/sword.png')
     elixir = pygame.image.load('./resources/elixir.png')

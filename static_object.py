@@ -1,5 +1,7 @@
 # coding: utf-8
-from textures import *
+from textures import * #import all images
+from math import floor
+from pygame.locals import *
 
 
 class StaticObject(pygame.sprite.Sprite):
@@ -68,13 +70,13 @@ class Pickaxe(StaticObject):
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.pickaxe, x, y)
 
-#class Sword(StaticObject):
+class Sword(StaticObject):
     """This class describes bonus
         that help pacman kill ghosts
 
     """
-#    def __init__(self, x, y):
-#        StaticObject.__init__(self, Textures.sword, x, y)
+    def __init__(self, x, y):
+        StaticObject.__init__(self, Textures.sword, x, y)
 
 
 class Elixir(StaticObject):

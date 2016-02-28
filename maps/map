@@ -1,16 +1,17 @@
-       .X                         XO
-       PX                         XO
-        X                         XO
-        O                         XO
- E      O                         XO
- XXXOXOXX       X                         XO
- X      X                         XO
- X      X                         XO
- X      X       X                         XO
- XXOOOOXX       X                         XO
- X       X                         XO
- O      O X                         XO
- X       X                         XO
- O      O X                         XO
- XOOXOOXO       X                         XO
-        X                         XO
+       .X       D
+       PX       D
+        X       D
+        O       D
+ E      O       D
+ XXXOXOXX       D
+ X     SX       D
+ X      X       D
+ X      X       D
+ XXOOOOXX       D
+ X       X      D
+ O      O X     D
+ X       X      D
+ O      O X     D
+ XOOXOOXO       D
+        X       D
+DDDDDDDDDDDDDDDDD

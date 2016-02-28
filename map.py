@@ -1,5 +1,5 @@
 # coding: utf-8
-from static_object import *
+from static_object import * # import walls, food, bonuses
 """изменить каунт для еды"""
 
 
@@ -10,7 +10,7 @@ class Map:
         f.close()
         self.data = [[0] * (16) for i in range(16)]
         for y in range(16):
-            for x in range(len(txt)):
+            for x in range(16):
                 if txt[y][x] == 'O':
                     self.data[y][x] = FragileWall(x, y)
                 elif txt[y][x] == ".":
@@ -19,8 +19,8 @@ class Map:
                     self.data[y][x] = SolidWall(x, y)
                 elif txt[y][x] == 'P':
                     self.data[y][x] = Pickaxe(x, y)
-                #elif txt[y][x] == 'S':
-                #    self.data[y][x] = Sword(x, y)
+                elif txt[y][x] == 'S':
+                    self.data[y][x] = Sword(x, y)
                 elif txt[y][x] == 'E':
                     self.data[y][x] = Elixir(x, y)
                 else:
