@@ -15,6 +15,7 @@ def is_wall(x, y):
     return is_solid_wall(x, y) or is_fragile_wall(x, y)
 
 
+
 """def ghost_wall_react(x, y, v):
     wall_cords = [[x + v, y], [x, y + v], [x - v, y], [x, y - v]]
     for i in range(4):
@@ -122,7 +123,7 @@ class UnblindedGhost(DynamicObject):
 
     def ghost_AI(self):
         if self.x == pacman.x:
-            for i in range(int(abs(self.y - pacman.y))+1):
+            for i in range(int(abs(self.y - pacman.y)) + 1):
                 if self.y > pacman.y:
                     if is_wall(self.x, self.y - i): break
                     else: return 'up'
@@ -130,7 +131,7 @@ class UnblindedGhost(DynamicObject):
                     if is_wall(self.x, self.y + i): break
                     else: return 'down'       #elif ghost_fear: self.direction = up // else: self.direction == down
         if self.y == pacman.y:
-            for i in range(int(abs(self.x - pacman.x))):
+            for i in range(int(abs(self.x - pacman.x)) + 1):
                 if self.x > pacman.x:
                     if is_wall(self.x - i, self.y): break
                     else: return 'left'
@@ -185,6 +186,16 @@ class Pacman(DynamicObject):
         DynamicObject.__init__(self, Textures.pacman, x, y)
         self.direction = 0
         self.velocity = 4.0 / 10.0
+        self.count_food = 0
+
+    def eat_food(self):
+        if isinstance(MAP.data[int(self.y)][int(self.x)], Food):
+            MAP.data[int(self.y)][int(self.x)] = None
+            self.count_food += 1
+
+    def crush_wall(self):
+        if is_fragile_wall(self.x, self.y):
+            MAP.data[int(self.y)][int(self.x)] = None
 
     def game_tick(self):
         super(Pacman, self).game_tick()
@@ -209,7 +220,9 @@ class Pacman(DynamicObject):
             if self.y <= 0:
                 self.y = 0
 
-        # self.eat_food()
-        # self.crush_wall()
+        self.eat_food()
+        self.crush_wall()
         # self.set_direction_image(self.direction)
         self.set_coord(self.x, self.y)
+
+
