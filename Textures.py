@@ -20,3 +20,5 @@ class Textures:
     fragile_wall = pygame.image.load('./resources/wall.png')
     food = pygame.image.load('./resources/food.png')
     pickaxe = pygame.image.load('./resources/pickaxe.png')
+    #sword = pygame.image.load('./resources/sword.png')
+    elixir = pygame.image.load('./resources/elixir.png')

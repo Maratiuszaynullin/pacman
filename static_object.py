@@ -52,18 +52,35 @@ class Food(StaticObject):
         StaticObject.__init__(self, Textures.food, x, y)
 
 
-class Bonus(StaticObject):
+#class Bonus(StaticObject):
     """This class describes bonuses
     that modified pacman behavior.
 
     """
-    pass
+    #pass
 
 
-class Pickaxe(Bonus):
+class Pickaxe(StaticObject):
     """This class describes bonus
     that help pacman crush solid walls.
 
     """
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.pickaxe, x, y)
+
+#class Sword(StaticObject):
+    """This class describes bonus
+        that help pacman kill ghosts
+
+    """
+#    def __init__(self, x, y):
+#        StaticObject.__init__(self, Textures.sword, x, y)
+
+
+class Elixir(StaticObject):
+    """This class describes bonus
+    that increase pacman's speed.
+
+    """
+    def __init__(self, x, y):
+        StaticObject.__init__(self, Textures.elixir, x, y)

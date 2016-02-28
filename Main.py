@@ -43,17 +43,19 @@ def process_events(events, pac):
                 pac.direction = 0
 
 
-def one_step():
+def game_tick():
         process_events(pygame.event.get(), pacman)
         pygame.time.delay(100)
-        #unblinded_ghost.game_tick()
-        blind_ghost.game_tick()
-        pacman.game_tick()
         draw_background(screen, background)
+        #unblinded_ghost.game_tick()
+        #unblinded_ghost.draw(screen)
+        blind_ghost.game_tick()
+        blind_ghost.draw(screen)
+        pacman.game_tick()
         draw_objects()
         pacman.draw(screen)
-        #unblinded_ghost.draw(screen)
-        blind_ghost.draw(screen)
+
+
         pygame.display.update()
 
 
@@ -67,4 +69,4 @@ if __name__ == '__main__':
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
     while 1:
-        one_step()
+        game_tick()

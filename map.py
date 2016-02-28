@@ -19,6 +19,10 @@ class Map:
                     self.data[y][x] = SolidWall(x, y)
                 elif txt[y][x] == 'P':
                     self.data[y][x] = Pickaxe(x, y)
+                #elif txt[y][x] == 'S':
+                #    self.data[y][x] = Sword(x, y)
+                elif txt[y][x] == 'E':
+                    self.data[y][x] = Elixir(x, y)
                 else:
                     self.data[y][x] = None
 

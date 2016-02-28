@@ -15,7 +15,6 @@ def is_wall(x, y):
     return is_solid_wall(x, y) or is_fragile_wall(x, y)
 
 
-
 """def ghost_wall_react(x, y, v):
     wall_cords = [[x + v, y], [x, y + v], [x - v, y], [x, y - v]]
     for i in range(4):
@@ -74,6 +73,7 @@ class BlindGhost(DynamicObject):
         DynamicObject.__init__(self, Textures.blind_ghost, x, y)
         self.direction = 0
         self.velocity = 4.0 / 10.0
+        #self.status = 'alive'
 
     def game_tick(self):
         super(BlindGhost, self).game_tick()
@@ -120,6 +120,7 @@ class UnblindedGhost(DynamicObject):
         DynamicObject.__init__(self, Textures.unblinded_ghost, x, y)
         self.direction = 0
         self.velocity = 4.0 / 10.0
+        #self.status = 'alive'
 
     def ghost_AI(self):
         if self.x == pacman.x:
@@ -196,14 +197,24 @@ class Pacman(DynamicObject):
         if isinstance(MAP.data[int(self.y)][int(self.x)], Pickaxe):
             MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'pickaxe'
+        if isinstance(MAP.data[int(self.y)][int(self.x)], Elixir):
+            MAP.data[int(self.y)][int(self.x)] = None
+            self.bonus = 'elixir'
+        #if isinstance(MAP.data[int(self.y)][int(self.x)], Sword):
+        #   MAP.data[int(self.y)][int(self.x)] = None
+         #   self.bonus = 'sword'
 
     def crush_wall(self):
         if is_fragile_wall(self.x, self.y):
             MAP.data[int(self.y)][int(self.x)] = None
+
+    def pacman_with_bonus(self):
         if self.bonus == 'pickaxe':
             if is_solid_wall(self.x, self.y):
                 MAP.data[int(self.y)][int(self.x)] = None
                 self.bonus = None
+        if self.bonus == 'elixir':
+            self.velocity = 8.0 / 10.0
 
     def game_tick(self):
         super(Pacman, self).game_tick()
@@ -240,5 +251,6 @@ class Pacman(DynamicObject):
 
         self.eat()
         self.crush_wall()
+        self.pacman_with_bonus()
         #self.set_direction_image(self.direction)
         self.set_coord(self.x, self.y)
