@@ -1,6 +1,6 @@
 # coding: utf-8
-from dynamic_object import *
-from map import *
+from dynamic_object import * # import pacman and ghosts
+from map import * # import class map
 """все работает, может быть нужно будет дополнить некоторыми функциями"""
 
 
