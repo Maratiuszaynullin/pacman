@@ -1,6 +1,6 @@
 # coding: utf-8
-from map import *
-from main import *
+from map import * # import all static objects and map
+import random
 
 
 def is_solid_wall(x, y):
@@ -189,6 +189,7 @@ class Pacman(DynamicObject):
         self.velocity = 4.0 / 10.0
         self.count_food = 0
         self.bonus = None
+        self.bonus_time = 0
 
     def eat(self):
         if isinstance(MAP.data[int(self.y)][int(self.x)], Food):
@@ -200,6 +201,7 @@ class Pacman(DynamicObject):
         if isinstance(MAP.data[int(self.y)][int(self.x)], Elixir):
             MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'elixir'
+            self.bonus_time = 10
         #if isinstance(MAP.data[int(self.y)][int(self.x)], Sword):
         #   MAP.data[int(self.y)][int(self.x)] = None
          #   self.bonus = 'sword'
@@ -213,8 +215,9 @@ class Pacman(DynamicObject):
             if is_solid_wall(self.x, self.y):
                 MAP.data[int(self.y)][int(self.x)] = None
                 self.bonus = None
-        if self.bonus == 'elixir':
+        if self.bonus == 'elixir' and self.bonus_time != 0:
             self.velocity = 8.0 / 10.0
+            self.bonus_time -= 1
 
     def game_tick(self):
         super(Pacman, self).game_tick()

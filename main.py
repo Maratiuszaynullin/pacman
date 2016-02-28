@@ -1,7 +1,6 @@
 # coding: utf-8
 from dynamic_object import * # import pacman and ghosts
-from map import * # import class map
-"""все работает, может быть нужно будет дополнить некоторыми функциями"""
+import sys
 
 
 def init_window():
@@ -43,6 +42,11 @@ def process_events(events, pac):
                 pac.direction = 0
 
 
+def tick_timer(x = 0):
+    x += 1
+    return x
+
+
 def game_tick():
         process_events(pygame.event.get(), pacman)
         pygame.time.delay(100)
@@ -54,8 +58,6 @@ def game_tick():
         pacman.game_tick()
         draw_objects()
         pacman.draw(screen)
-
-
         pygame.display.update()
 
 

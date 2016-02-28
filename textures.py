@@ -1,9 +1,6 @@
-# coding: utf-8
-import sys
 import pygame
-from pygame.locals import *
-from math import floor
-import random
+
+
 tile_size = 32
 map_size = 16
 

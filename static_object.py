@@ -1,5 +1,7 @@
 # coding: utf-8
-from textures import *
+from textures import * #import all images
+from math import floor
+from pygame.locals import *
 
 
 class StaticObject(pygame.sprite.Sprite):

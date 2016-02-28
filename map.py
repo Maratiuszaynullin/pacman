@@ -1,5 +1,5 @@
 # coding: utf-8
-from static_object import *
+from static_object import * # import walls, food, bonuses
 """изменить каунт для еды"""
 
 
