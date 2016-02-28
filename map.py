@@ -17,8 +17,8 @@ class Map:
                     self.data[y][x] = Food(x, y)
                 elif txt[y][x] == 'X':
                     self.data[y][x] = SolidWall(x, y)
-                    # elif txt[y][x] == 'S':
-                    # self.data[y][x] = Speed_bonus(x, y)
+                elif txt[y][x] == 'P':
+                    self.data[y][x] = Pickaxe(x, y)
                 else:
                     self.data[y][x] = None
 

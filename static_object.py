@@ -1,9 +1,12 @@
 # coding: utf-8
 from textures import *
-"""готово все, кроме рун. Остальное адекватно работает исправлять и добавлять пока не надо"""
 
 
 class StaticObject(pygame.sprite.Sprite):
+    """This is the base class
+    for all static objects (walls, food, bonuses).
+
+    """
     def __init__(self, img, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = img
@@ -26,19 +29,41 @@ class StaticObject(pygame.sprite.Sprite):
 
 
 class SolidWall(StaticObject):
+    """This class describes walls
+    that can't be crushed by all dynamic objects.
+
+    """
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.solid_wall, x, y)
 
 
 class FragileWall(StaticObject):
+    """This class describes walls
+    that can be crushed by pacman.
+
+    """
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.fragile_wall, x, y)
 
 
 class Food(StaticObject):
+    """This class describes pacman's food."""
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.food, x, y)
 
 
-class Rune(StaticObject):  #руны - модификаторы поведения пакмана
+class Bonus(StaticObject):
+    """This class describes bonuses
+    that modified pacman behavior.
+
+    """
     pass
+
+
+class Pickaxe(Bonus):
+    """This class describes bonus
+    that help pacman crush solid walls.
+
+    """
+    def __init__(self, x, y):
+        StaticObject.__init__(self, Textures.pickaxe, x, y)

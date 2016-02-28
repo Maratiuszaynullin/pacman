@@ -187,42 +187,58 @@ class Pacman(DynamicObject):
         self.direction = 0
         self.velocity = 4.0 / 10.0
         self.count_food = 0
+        self.bonus = None
 
-    def eat_food(self):
+    def eat(self):
         if isinstance(MAP.data[int(self.y)][int(self.x)], Food):
             MAP.data[int(self.y)][int(self.x)] = None
             self.count_food += 1
+        if isinstance(MAP.data[int(self.y)][int(self.x)], Pickaxe):
+            MAP.data[int(self.y)][int(self.x)] = None
+            self.bonus = 'pickaxe'
 
     def crush_wall(self):
         if is_fragile_wall(self.x, self.y):
             MAP.data[int(self.y)][int(self.x)] = None
+        if self.bonus == 'pickaxe':
+            if is_solid_wall(self.x, self.y):
+                MAP.data[int(self.y)][int(self.x)] = None
+                self.bonus = None
 
     def game_tick(self):
         super(Pacman, self).game_tick()
         if self.direction == 1:
-            if not is_solid_wall(self.x + self.velocity, self.y):
+            if self.bonus == 'pickaxe':
+                self.x += self.velocity
+            elif not is_solid_wall(self.x + self.velocity, self.y):
                 self.x += self.velocity
             if self.x >= map_size - 1:
                 self.x = map_size - 1
         elif self.direction == 2:
-            if not is_solid_wall(self.x, self.y + self.velocity):
+            if self.bonus == 'pickaxe':
+                self.y += self.velocity
+            elif not is_solid_wall(self.x, self.y + self.velocity):
                 self.y += self.velocity
             if self.y >= map_size - 1:
                 self.y = map_size - 1
         elif self.direction == 3:
-            if not is_solid_wall(self.x - self.velocity, self.y):
+            if self.bonus == 'pickaxe':
+                self.x -= self.velocity
+            elif not is_solid_wall(self.x - self.velocity, self.y):
                 self.x -= self.velocity
             if self.x <= 0:
                 self.x = 0
         elif self.direction == 4:
-            if not is_solid_wall(self.x, self.y - self.velocity):
+            if self.bonus == 'pickaxe':
+                self.y -= self.velocity
+            elif not is_solid_wall(self.x, self.y - self.velocity):
                 self.y -= self.velocity
             if self.y <= 0:
                 self.y = 0
 
-        self.eat_food()
+
+
+        self.eat()
         self.crush_wall()
-        # self.set_direction_image(self.direction)
+        #self.set_direction_image(self.direction)
         self.set_coord(self.x, self.y)
-
-
