@@ -19,6 +19,7 @@ def draw_background(scr, img=None):
 
 
 def game_over(img):
+    unblinded_ghost.velocity = 0
     blind_ghost.velocity = 0
     pacman.velocity = 0
     draw_background(screen, img)
@@ -32,6 +33,8 @@ def you_win():
 
 def you_lose():
     if floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost.y):
+        game_over(Textures.lose_screen)
+    if floor(pacman.x) == floor(unblinded_ghost.x) and floor(pacman.y) == floor(unblinded_ghost.y):
         game_over(Textures.lose_screen)
 
 
@@ -48,15 +51,15 @@ def process_events(events, pac):
             sys.exit(0)
         elif event.type == KEYDOWN:
             if event.key == K_LEFT:
-                pac.direction = 3
+                pac.direction = 'left'
             elif event.key == K_RIGHT:
-                pac.direction = 1
+                pac.direction = 'right'
             elif event.key == K_UP:
-                pac.direction = 4
+                pac.direction = 'up'
             elif event.key == K_DOWN:
-                pac.direction = 2
+                pac.direction = 'down'
             elif event.key == K_SPACE:
-                pac.direction = 0
+                pac.direction = 'stop'
 
 
 def tick_timer(x = 0):
@@ -75,7 +78,7 @@ def game_tick():
     pacman.game_tick()
     draw_objects()
     pacman.draw(screen)
-    #you_lose()
+    you_lose()
     you_win()
     pygame.display.update()
 
