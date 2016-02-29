@@ -18,6 +18,23 @@ def draw_background(scr, img=None):
         scr.blit(bg, (0, 0))
 
 
+def game_over(img):
+    blind_ghost.velocity = 0
+    pacman.velocity = 0
+    draw_background(screen, img)
+
+
+def you_win():
+    pass
+    #if map.count_food() == 0:
+       # game_over(Textures.win_screen)
+
+
+def you_lose():
+    if floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost.y):
+        game_over(Textures.lose_screen)
+
+
 def draw_objects():
     for y in range(map_size):
         for x in range(map_size):
@@ -50,25 +67,21 @@ def tick_timer(x = 0):
 def game_tick():
     process_events(pygame.event.get(), pacman)
     pygame.time.delay(100)
-    draw_background(screen, background)
-    #unblinded_ghost.game_tick()
-    #unblinded_ghost.draw(screen)
+    draw_background(screen, Textures.background)
+    unblinded_ghost.game_tick()
+    unblinded_ghost.draw(screen)
     blind_ghost.game_tick()
     blind_ghost.draw(screen)
     pacman.game_tick()
     draw_objects()
     pacman.draw(screen)
+    #you_lose()
+    you_win()
     pygame.display.update()
 
 
 if __name__ == '__main__':
-    tile_size = 32
-    map_size = 16
     init_window()
-    #unblinded_ghost = UnblindedGhost(8, 4)
-    blind_ghost = BlindGhost(5, 11)
-    pacman = Pacman(5, 8)
-    background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
     while 1:
         game_tick()
