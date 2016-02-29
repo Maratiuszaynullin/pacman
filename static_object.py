@@ -70,6 +70,7 @@ class Pickaxe(StaticObject):
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.pickaxe, x, y)
 
+
 class Sword(StaticObject):
     """This class describes bonus
         that help pacman kill ghosts

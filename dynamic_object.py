@@ -15,37 +15,6 @@ def is_wall(x, y):
     return is_solid_wall(x, y) or is_fragile_wall(x, y)
 
 
-"""def ghost_wall_react(x, y, v):
-    wall_cords = [[x + v, y], [x, y + v], [x - v, y], [x, y - v]]
-    for i in range(4):
-        if is_solid_wall(wall_cords[i][0], wall_cords[i][1]) == 'true':
-            print (1231)
-            return random.randint(1, 4)
-    #return random.randint(1, 4)
-    return BlindGhost.direction"""
-
-
-"""def ghost_wall_react1(x, y, v):
-    wall_cords = {1:[x + v, y], 2:[x, y + v], 3:[x - v], 4:[x, y - v]}
-    direction = 0
-    for i in range(1, 5):
-        for j in range(1, 5):
-            for k in range(1, 5):
-                if is_wall(wall_cords[i], wall_cords[i]) and is_wall(wall_cords[j], wall_cords[j]) and is_wall(wall_cords[k], wall_cords[k]):
-                    #временное решение, но тоже норм
-                    ii = wall_cords[i]
-                    jj = wall_cords[j]
-                    kk = wall_cords[k]
-                    if ii == jj:
-                        if ii == kk: del ii
-                        else: del ii, kk
-                    elif jj == kk: del ii, jj
-                    else: del ii, jj, kk
-                    direction = random.choice(wall_cords)
-                #else: direction = 0
-    return direction"""
-
-
 class DynamicObject(pygame.sprite.Sprite):
     def __init__(self, img, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -123,29 +92,39 @@ class UnblindedGhost(DynamicObject):
         #self.status = 'alive'
 
     def ghost_AI(self):
-        if self.x == pacman.x:
-            for i in range(int(abs(self.y - pacman.y)) + 1):
+        direction = 0
+        if floor(self.x) == floor(pacman.x):
+            for i in range(abs(int(self.y) - int(pacman.y))):
                 if self.y > pacman.y:
-                    if is_wall(self.x, self.y - i): break
-                    else: return 'up'
+                    if is_wall(self.x, self.y - i):
+                        direction = 0
+                        break
+                    else: direction = 4
                 else:
-                    if is_wall(self.x, self.y + i): break
-                    else: return 'down'       #elif ghost_fear: self.direction = up // else: self.direction == down
-        if self.y == pacman.y:
-            for i in range(int(abs(self.x - pacman.x)) + 1):
+                    if is_wall(self.x, self.y + i):
+                        direction = 0
+                        break
+                    else: direction = 2       #elif ghost_fear: self.direction = up // else: self.direction == down
+        if floor(self.y) == floor(pacman.y):
+            for i in range(abs(int(self.x) - int(pacman.x))):
                 if self.x > pacman.x:
-                    if is_wall(self.x - i, self.y): break
-                    else: return 'left'
+                    if is_wall(self.x - i, self.y):
+                        direction = 0
+                        break
+                    else: direction = 3
                 else:
-                    if is_wall(self.x + i, self.y): break
-                    else: return 'right'
+                    if is_wall(self.x + i, self.y):
+                        direction = 0
+                        break
+                    else: direction = 1
+        return direction
 
     def game_tick(self):
         super(UnblindedGhost, self).game_tick()
-        if self.tick % 20 == 0 or self.direction == 0:
+        if self.direction == 0:
             self.direction = random.randint(1, 4)
 
-        if self.ghost_AI(): self.direction = self.ghost_AI()
+        if self.ghost_AI() != 0: self.direction = self.ghost_AI()
 
         if self.direction == 1:
             if not is_wall(self.x + self.velocity, self.y):
@@ -182,7 +161,6 @@ class UnblindedGhost(DynamicObject):
         self.set_coord(self.x, self.y)
 
 
-    
 class Pacman(DynamicObject):
     def __init__(self, x, y):
         DynamicObject.__init__(self, Textures.pacman, x, y)
@@ -257,9 +235,13 @@ class Pacman(DynamicObject):
             if self.y <= 0:
                 self.y = 0
 
-
         self.eat()
         self.crush_wall()
         self.pacman_with_bonus()
         #self.set_direction_image(self.direction)
         self.set_coord(self.x, self.y)
+
+
+pacman = Pacman(5, 8)
+blind_ghost = BlindGhost(5, 11)
+unblinded_ghost = UnblindedGhost(6, 11)
