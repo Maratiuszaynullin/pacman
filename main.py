@@ -4,12 +4,16 @@ import sys
 
 
 def init_window():
+    """This function create game window"""
     pygame.init()
     pygame.display.set_mode((512, 512))
     pygame.display.set_caption('Pacman')
 
 
 def draw_background(scr, img=None):
+    """This function takes image
+    and draw background with this image.
+    If image is not given
     if img:
         scr.blit(img, (0, 0))
     else:

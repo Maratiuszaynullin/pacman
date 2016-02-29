@@ -224,7 +224,7 @@ class Pacman(DynamicObject):
                 self.bonus = None
                 self.velocity = 4.0 / 10.0
         #if self.bonus == 'sword':
-        #    if self.x ==
+        #    if isinstance(MAP.data[int(self.y)][int(self.x)], BlindGhost)
 
     def game_tick(self):
         super(Pacman, self).game_tick()
