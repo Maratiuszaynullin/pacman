@@ -30,4 +30,5 @@ class Textures:
 
     win_screen = pygame.image.load('./resources/you_win.png')
     lose_screen = pygame.image.load('./resources/game_over.png')
-    background = pygame.image.load('./resources/background.png')
+    background = pygame.image.load('./resources/background11.png')
+    gui1 = pygame.image.load('./resources/gui1.png')

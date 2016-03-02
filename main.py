@@ -14,8 +14,13 @@ def draw_background(scr, img=None):
         scr.blit(img, (0, 0))
     else:
         bg = pygame.Surface(scr.get_size())
-        bg.fill((128, 128, 128))
+        bg.fill((150, 160, 210))
         scr.blit(bg, (0, 0))
+
+
+
+def score(count_food):
+    return pacman.count_food
 
 
 def game_over(img):
@@ -23,12 +28,13 @@ def game_over(img):
     blind_ghost.velocity = 0
     pacman.velocity = 0
     draw_background(screen, img)
+    you_score = score(pacman.count_food)
+    print('You score', you_score)
 
 
 def you_win():
-    pass
-    #if map.count_food() == 0:
-       # game_over(Textures.win_screen)
+    if pacman.count_food == count_all_food:
+        game_over(Textures.win_screen)
 
 
 def you_lose():
@@ -77,6 +83,7 @@ def game_tick():
     blind_ghost.draw(screen)
     pacman.game_tick()
     draw_objects()
+    #drow_stat(screen)
     pacman.draw(screen)
     you_lose()
     you_win()

@@ -1,6 +1,5 @@
 # coding: utf-8
 from static_object import * # import walls, food, bonuses
-"""изменить каунт для еды"""
 
 
 class Map:
@@ -29,14 +28,17 @@ class Map:
     def get(self, x, y):
         return self.data[int(y)][int(x)]
 
-    """def count_food(self):
+    def count_food(self):
         count = 0
         for y in range(len(self.data)):
             for x in range(len(self.data[0])):
                 if type(self.get(x, y)) == Food:
                     count += 1
-        return count"""
+        return count
 
 
 global MAP
 MAP = Map('./maps/map')
+count_all_food = MAP.count_food()
+
+
