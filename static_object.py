@@ -1,5 +1,5 @@
 # coding: utf-8
-from textures import * #import all images
+from textures import *  #import all images
 from math import floor
 from pygame.locals import *
 

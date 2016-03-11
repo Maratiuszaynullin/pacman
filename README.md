@@ -1,2 +1,5 @@
 # pacman
-Преподавательская версия проекта Pacman
+        Pacman
+Marat Zaynullin
+Ksenia Lupir
+

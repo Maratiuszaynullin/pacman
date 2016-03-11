@@ -1,5 +1,5 @@
 # coding: utf-8
-from static_object import * # import walls, food, bonuses
+from static_object import *  # import walls, food, bonuses
 
 
 class Map:
@@ -35,10 +35,3 @@ class Map:
                 if type(self.get(x, y)) == Food:
                     count += 1
         return count
-
-
-global MAP
-MAP = Map('./maps/map')
-count_all_food = MAP.count_food()
-
-

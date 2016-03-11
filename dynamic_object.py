@@ -1,14 +1,15 @@
 # coding: utf-8
-from map import * # import all static objects and map
+from map import *  # import all static objects and lvl_0
 import random
+import main as m
 
 
 def is_solid_wall(x, y):
-    return isinstance(MAP.data[int(y)][int(x)], SolidWall)
+    return isinstance(m.MAP.data[int(y)][int(x)], SolidWall)
 
 
 def is_fragile_wall(x, y):
-    return isinstance(MAP.data[int(y)][int(x)], FragileWall)
+    return isinstance(m.MAP.data[int(y)][int(x)], FragileWall)
 
 
 def is_wall(x, y):
@@ -93,7 +94,7 @@ class UnblindedGhost(DynamicObject):
         self.velocity = 4.0 / 10.0
         #self.status = 'alive'
 
-    def ghost_AI(self):
+    def ghost_ai(self):
         direction = 'stop'
         if floor(self.x) == floor(pacman.x):
             for i in range(abs(int(self.y) - int(pacman.y))):
@@ -175,28 +176,28 @@ class Pacman(DynamicObject):
         self.bonus_time = 0
 
     def eat(self):
-        if isinstance(MAP.data[int(self.y)][int(self.x)], Food):
-            MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Food):
+            m.MAP.data[int(self.y)][int(self.x)] = None
             self.count_food += 1
-        if isinstance(MAP.data[int(self.y)][int(self.x)], Pickaxe):
-            MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Pickaxe):
+            m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'pickaxe'
-        if isinstance(MAP.data[int(self.y)][int(self.x)], Elixir):
-            MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Elixir):
+            m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'elixir'
             self.bonus_time = 70
-        if isinstance(MAP.data[int(self.y)][int(self.x)], Sword):
-            MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Sword):
+            m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'sword'
 
     def crush_wall(self):
         if is_fragile_wall(self.x, self.y):
-            MAP.data[int(self.y)][int(self.x)] = None
+            m.MAP.data[int(self.y)][int(self.x)] = None
 
     def pacman_with_bonus(self):
         if self.bonus == 'pickaxe':
             if is_solid_wall(self.x, self.y):
-                MAP.data[int(self.y)][int(self.x)] = None
+                m.MAP.data[int(self.y)][int(self.x)] = None
                 self.bonus = None
         if self.bonus == 'elixir':
             if self.bonus_time != 0:
@@ -251,5 +252,5 @@ class Pacman(DynamicObject):
 
 
 pacman = Pacman(5, 8)
-blind_ghost = BlindGhost(5, 11)
+blind_ghost = BlindGhost(2, 8)
 unblinded_ghost = UnblindedGhost(6, 11)
