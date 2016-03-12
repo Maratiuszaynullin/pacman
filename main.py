@@ -52,16 +52,6 @@ def you_win():
         return 'false'
 
 
-def new_game():
-    """This function sets locations of dynamic object
-    at the beginning of the game.
-    """
-    pacman.x = 5
-    pacman.y = 8
-    blind_ghost.x = 5
-    blind_ghost.y = 11
-
-
 def you_lose():
     """This function checks if pacman ran into ghost.
     Return true or false.
@@ -70,9 +60,20 @@ def you_lose():
         and floor(pacman.y) == floor(blind_ghost.y))
         or (floor(pacman.x) == floor(unblinded_ghost.x)
         and floor(pacman.y) == floor(unblinded_ghost.y))):
-        return 'true'
+        if pacman.bonus != 'sword':
+            return 'true'
     else:
         return 'false'
+
+
+def new_game():
+    """This function sets locations of dynamic object
+    at the beginning of the game.
+    """
+    pacman.x = 5
+    pacman.y = 8
+    blind_ghost.x = 5
+    blind_ghost.y = 11
 
 
 """def set_map():
@@ -120,6 +121,16 @@ def draw_objects():
                m.MAP.get(x, y).draw(screen)
 
 
+def draw_ghosts():
+    """This function draw alive ghosts."""
+    if unblinded_ghost.status == 'alive':
+        unblinded_ghost.draw(screen)
+        unblinded_ghost.game_tick()
+    if blind_ghost.status == 'alive':
+        blind_ghost.draw(screen)
+        blind_ghost.game_tick()
+
+
 def process_events(events, pac):
     """This function help control the game
     (pacman, restart game, continue game) with keyboard.
@@ -156,11 +167,7 @@ def game_tick():
     process_events(pygame.event.get(), pacman)
     pygame.time.delay(100)
     draw_background(screen, Textures.background)
-    unblinded_ghost.game_tick()
-    unblinded_ghost.draw(screen)
-    #tick_timer()
-    blind_ghost.game_tick()
-    blind_ghost.draw(screen)
+    draw_ghosts()
     pacman.game_tick()
     pacman.draw(screen)
     draw_objects()
