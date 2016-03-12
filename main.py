@@ -11,7 +11,7 @@ t = 0
 
 def init_window():
     pygame.init()
-    pygame.display.set_mode((512, 512))
+    pygame.display.set_mode((704, 640))
     pygame.display.set_caption('Pacman')
 
 
@@ -86,8 +86,8 @@ def next_lvl():
 
 
 def draw_objects():
-    for y in range(map_size):
-        for x in range(map_size):
+    for y in range(map_height):
+        for x in range(map_width):
             if m.MAP.get(x, y) != None:
                m. MAP.get(x, y).draw(screen)
 

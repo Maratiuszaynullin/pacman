@@ -32,7 +32,7 @@ class DynamicObject(pygame.sprite.Sprite):
     def set_coord(self, x, y):
         self.x = x
         self.y = y
-        self.screen_rect = Rect(floor(x) * tile_size + 31, floor(y) * tile_size +32, tile_size, tile_size)
+        self.screen_rect = Rect(floor(x) * tile_size + 32, floor(y) * tile_size +32, tile_size, tile_size)
 
     def game_tick(self):
         self.tick += 1
@@ -105,7 +105,7 @@ class UnblindedGhost(DynamicObject):
         self.velocity = 4.0 / 10.0
         self.status = 'alive'
 
-    def ghost_AI(self):
+    def ghost_ai(self):
         direction = 'stop'
         if floor(self.x) == floor(pacman.x):
             for i in range(abs(int(self.y) - int(pacman.y))):
