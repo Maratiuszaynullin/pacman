@@ -38,8 +38,7 @@ def game_over(img):
     """
     process_events(pygame.event.get(), pacman)
     draw_background(screen, img)
-    you_score = score(pacman.count_food)
-    print('You score', you_score)
+    print('You score', pacman.score)
 
 
 def you_win():
@@ -172,6 +171,7 @@ def game_tick():
     pacman.draw(screen)
     draw_objects()
     pygame.display.update()
+    print(pacman.score)
 
 
 if __name__ == '__main__':

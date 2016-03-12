@@ -177,7 +177,6 @@ class UnblindedGhost(DynamicObject):
                 self.direction = random.choice(('right', 'left', 'up', 'down'))
 
         self.set_coord(self.x, self.y)
-        print(self.status)
 
 
 class Pacman(DynamicObject):
@@ -192,33 +191,40 @@ class Pacman(DynamicObject):
         self.count_food = 0
         self.bonus = None
         self.bonus_time = 0
+        self.score = 0
 
     def eat_static_objects(self):
         if isinstance(m.MAP.data[int(self.y)][int(self.x)], Food):  # If pacman eats food count_food changes.
             m.MAP.data[int(self.y)][int(self.x)] = None
             self.count_food += 1
+            self.score += 1
         if isinstance(m.MAP.data[int(self.y)][int(self.x)], Pickaxe): # If pacman eats pickaxe he can crush solid walls.
             m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'pickaxe'
             self.velocity = 4.0 / 10.0
+            self.score += 3
         if isinstance(m.MAP.data[int(self.y)][int(self.x)], Elixir): # If pacman eats elixir his speed increases.
             m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'elixir'
             self.bonus_time = 70
+            self.score += 4
         if isinstance(m.MAP.data[int(self.y)][int(self.x)], Sword):  # If pacman eats sword he can kill ghosts.
             m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'sword'
             self.velocity = 4.0 / 10.0
+            self.score += 3
 
     def crush_wall(self):
         if is_fragile_wall(self.x, self.y):
             m.MAP.data[int(self.y)][int(self.x)] = None
+            self.score += 2
 
     def pacman_with_bonus(self):
         if self.bonus == 'pickaxe':  # This bonus help pacman crush solid walls.
             if is_solid_wall(self.x, self.y):
                 m.MAP.data[int(self.y)][int(self.x)] = None
                 self.bonus = None
+                self.score += 3
         if self.bonus == 'elixir':  # This bonus increases pacman speed.
             if self.bonus_time != 0:
                 self.velocity = 8.0 / 10.0
@@ -232,6 +238,13 @@ class Pacman(DynamicObject):
                 unblinded_ghost.x = -1
                 unblinded_ghost.y = -1
                 self.bonus = None
+                self.score += 5
+            if floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost.y):
+                blind_ghost.status = 'dead'
+                blind_ghost.x = -1
+                blind_ghost.y = -1
+                self.bonus = None
+                self.score += 5
 
     def game_tick(self):
         super(Pacman, self).game_tick()
@@ -273,7 +286,6 @@ class Pacman(DynamicObject):
         self.pacman_with_bonus()
         #self.set_direction_image(self.direction)
         self.set_coord(self.x, self.y)
-        print(self.bonus)
 
 
 pacman = Pacman(5, 8)
