@@ -13,7 +13,7 @@ def init_window():
 def draw_background(scr, img=None):
     """This function takes image
     and draw background with this image.
-    If image is not given
+    If image is not given """
     if img:
         scr.blit(img, (0, 0))
     else:
@@ -23,6 +23,7 @@ def draw_background(scr, img=None):
 
 
 def game_over(img):
+    unblinded_ghost.velocity = 0
     blind_ghost.velocity = 0
     pacman.velocity = 0
     draw_background(screen, img)
@@ -34,8 +35,17 @@ def you_win():
        # game_over(Textures.win_screen)
 
 
+def new_game():
+    pacman.x = 5
+    pacman.y = 8
+    blind_ghost.x = 5
+    blind_ghost.y = 11
+
+
 def you_lose():
     if floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost.y):
+        game_over(Textures.lose_screen)
+    if floor(pacman.x) == floor(unblinded_ghost.x) and floor(pacman.y) == floor(unblinded_ghost.y):
         game_over(Textures.lose_screen)
 
 
@@ -65,7 +75,6 @@ def process_events(events, pac):
 
 def tick_timer(x = 0):
     x += 1
-    return x
 
 
 def game_tick():
@@ -74,12 +83,13 @@ def game_tick():
     draw_background(screen, Textures.background)
     unblinded_ghost.game_tick()
     unblinded_ghost.draw(screen)
+    tick_timer()
     blind_ghost.game_tick()
     blind_ghost.draw(screen)
     pacman.game_tick()
     draw_objects()
     pacman.draw(screen)
-    #you_lose()
+    you_lose()
     you_win()
     pygame.display.update()
 
