@@ -11,7 +11,7 @@ t = 0
 
 def init_window():
     pygame.init()
-    pygame.display.set_mode((512, 512))
+    pygame.display.set_mode((704, 640))
     pygame.display.set_caption('Pacman')
 
 
@@ -60,9 +60,9 @@ MAP = set_map()"""
 
 
 def restart_lvl():
-    (pacman.x, pacman.y) = (5, 8)
-    (blind_ghost.x, blind_ghost.y) = (2, 8)
-    (unblinded_ghost.x, unblinded_ghost.y) = (6, 11)
+    (pacman.x, pacman.y) = (9, 8)
+    (blind_ghost.x, blind_ghost.y) = (6, 8)
+    (unblinded_ghost.x, unblinded_ghost.y) = (9, 11)
     pacman.direction = unblinded_ghost.direction = 'stop'
     m.MAP = Map(levels[pacman_lvl])
     global count_all_food
@@ -71,23 +71,23 @@ def restart_lvl():
 
 
 def next_lvl():
-    draw_background(screen, Textures.background)
-    pygame.display.update()
-    pygame.time.delay(1000)
+    #draw_background(screen, Textures.background)
+    #pygame.display.update()
+    #pygame.time.delay(1000)
     global pacman_lvl, count_all_food
     pacman_lvl += 1
     pacman.count_food = 0
     pacman.direction = unblinded_ghost.direction = 'stop'
-    (pacman.x, pacman.y) = (5, 8)
-    (blind_ghost.x, blind_ghost.y) = (2, 8)
-    (unblinded_ghost.x, unblinded_ghost.y) = (6, 11)
+    (pacman.x, pacman.y) = (9, 8)
+    (blind_ghost.x, blind_ghost.y) = (6, 8)
+    (unblinded_ghost.x, unblinded_ghost.y) = (9, 11)
     m.MAP = Map(levels[pacman_lvl])
     count_all_food = m.MAP.count_food()
 
 
 def draw_objects():
-    for y in range(map_size):
-        for x in range(map_size):
+    for y in range(map_height):
+        for x in range(map_width):
             if m.MAP.get(x, y) != None:
                m. MAP.get(x, y).draw(screen)
 

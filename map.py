@@ -7,9 +7,9 @@ class Map:
         f = open(filename, 'r')
         txt = f.readlines()
         f.close()
-        self.data = [[0] * (16) for i in range(16)]
-        for y in range(16):
-            for x in range(16):
+        self.data = [[0] * (map_width) for i in range(map_height)]
+        for y in range(map_height):
+            for x in range(map_width):
                 if txt[y][x] == 'O':
                     self.data[y][x] = FragileWall(x, y)
                 elif txt[y][x] == ".":

@@ -21,10 +21,7 @@ class StaticObject(pygame.sprite.Sprite):
     def set_coord(self, x, y):
         self.x = x
         self.y = y
-        self.screen_rect = Rect(floor(x) * tile_size, floor(y) * tile_size, tile_size, tile_size)
-
-    #def game_tick(self):
-        #self.tick += 1
+        self.screen_rect = Rect(floor(x) * tile_size + 32, floor(y) * tile_size + 32, tile_size, tile_size)
 
     def draw(self, scr):
         scr.blit(self.image, (self.screen_rect.x, self.screen_rect.y))
