@@ -1,6 +1,5 @@
-# coding: utf-8
 from dynamic_object import *  # import pacman and ghosts
-from map import * #import class map, statis objects, textures
+from map import *  # import class map, static objects, textures
 import sys
 pacman_lvl = 0
 levels = ['./maps/lvl_0', './maps/lvl_1', './maps/lvl_2', './maps/lvl_3', './maps/lvl_4']
@@ -18,8 +17,7 @@ def init_window():
 
 def draw_background(scr, img=None):
     """This function takes image and draw background with this image.
-    If image is not given background is filled with black color
-
+    If image is not given background is filled with black color.
     """
     if img:
         scr.blit(img, (0, 0))
@@ -37,7 +35,6 @@ def score(count_food):
 def game_over(img):
     """When you win or lose this function draw
     suitable background and show your score.
-
     """
     process_events(pygame.event.get(), pacman)
     draw_background(screen, img)
@@ -48,7 +45,6 @@ def game_over(img):
 def you_win():
     """This function checks if pacman ate all the food on the map.
     Return true or false.
-
     """
     if pacman.count_food == count_all_food:
         return 'true'
@@ -59,7 +55,6 @@ def you_win():
 def new_game():
     """This function sets locations of dynamic object
     at the beginning of the game.
-
     """
     pacman.x = 5
     pacman.y = 8
@@ -70,7 +65,6 @@ def new_game():
 def you_lose():
     """This function checks if pacman ran into ghost.
     Return true or false.
-
     """
     if ((floor(pacman.x) == floor(blind_ghost.x)
         and floor(pacman.y) == floor(blind_ghost.y))
@@ -123,13 +117,12 @@ def draw_objects():
     for y in range(map_size):
         for x in range(map_size):
             if m.MAP.get(x, y) != None:
-               m. MAP.get(x, y).draw(screen)
+               m.MAP.get(x, y).draw(screen)
 
 
 def process_events(events, pac):
     """This function help control the game
     (pacman, restart game, continue game) with keyboard.
-
     """
     for event in events:
         if you_win() == 'true':

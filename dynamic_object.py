@@ -1,4 +1,3 @@
-# coding: utf-8
 from map import *  # import all static objects and lvl_0
 import random
 import main as m
@@ -106,6 +105,7 @@ class UnblindedGhost(DynamicObject):
         DynamicObject.__init__(self, Textures.unblinded_ghost_right, x, y)
         self.direction = 'stop'
         self.velocity = 4.0 / 10.0
+        #self.memory =  None
         #self.status = 'alive'
 
     def ghost_ai(self):
@@ -140,8 +140,13 @@ class UnblindedGhost(DynamicObject):
         super(UnblindedGhost, self).game_tick()
         if self.direction == 'stop':
             self.direction = random.choice(('right', 'left', 'up', 'down'))
+            #if self.memory is not None:
 
-        if self.ghost_ai() != 'stop': self.direction = self.ghost_ai()
+
+        if self.ghost_ai() != 'stop':
+            self.direction = self.ghost_ai()
+            #self.memory = [pacman.x, pacman.y] 
+
 
         if self.direction == 'right':
             self.image = Textures.unblinded_ghost_right
