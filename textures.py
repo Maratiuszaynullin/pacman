@@ -2,7 +2,8 @@ import pygame
 
 
 tile_size = 32
-map_size = 16
+map_width = 20
+map_height = 16
 
 
 class Textures:
@@ -34,8 +35,8 @@ class Textures:
     unblinded_ghost_right = pygame.image.load('./resources/units/unblinded_ghost_right.png')
     unblinded_ghost_left = pygame.image.load('./resources/units/unblinded_ghost_left.png')
 
-    solid_wall = pygame.image.load('./resources/terrain/stonebrick_mossy.png')
-    fragile_wall = pygame.image.load('./resources/terrain/cobblestone_mossy.png')
+    solid_wall = pygame.image.load('./resources/terrain/shadow_1.png')
+    fragile_wall = pygame.image.load('./resources/terrain/shadow_2.png')
 
     food = pygame.image.load('./resources/items/cookie.png')
     pickaxe = pygame.image.load('./resources/items/iron_pickaxe.png')
@@ -43,6 +44,6 @@ class Textures:
     elixir = pygame.image.load('./resources/items/elixir.png')
 
     win_screen = pygame.image.load('./resources/you_win.png')
-    lose_screen = pygame.image.load('./resources/game_over.png')
-    background = pygame.image.load('./resources/background11.png')
+    lose_screen = pygame.image.load('./resources/lose_screen.png')
+    background = pygame.image.load('./resources/background.png')
     gui1 = pygame.image.load('./resources/gui1.png')

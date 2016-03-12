@@ -32,7 +32,7 @@ class DynamicObject(pygame.sprite.Sprite):
     def set_coord(self, x, y):
         self.x = x
         self.y = y
-        self.screen_rect = Rect(floor(x) * tile_size, floor(y) * tile_size, tile_size, tile_size)
+        self.screen_rect = Rect(floor(x) * tile_size + 32, floor(y) * tile_size +32, tile_size, tile_size)
 
     def game_tick(self):
         self.tick += 1
@@ -63,16 +63,16 @@ class BlindGhost(DynamicObject):
             if not is_wall(self.x + self.velocity, self.y):
                 self.x += self.velocity
             else: self.direction = random.choice(('down', 'left', 'up'))
-            if self.x >= map_size - 1:
-                self.x = map_size - 1
+            if self.x >= map_width - 1:
+                self.x = map_width - 1
                 self.direction = random.choice(('right', 'left', 'up', 'down'))
 
         if self.direction == 'down':
             if not is_wall(self.x, self.y + self.velocity):
                 self.y += self.velocity
             else: self.direction = random.choice(('right', 'left', 'up'))
-            if self.y >= map_size - 1:
-                self.y = map_size - 1
+            if self.y >= map_height - 1:
+                self.y = map_height - 1
                 self.direction = random.choice(('right', 'left', 'up', 'down'))
 
         if self.direction == 'left':
@@ -147,16 +147,16 @@ class UnblindedGhost(DynamicObject):
             if not is_wall(self.x + self.velocity, self.y):
                 self.x += self.velocity
             else: self.direction = random.choice(('down', 'left', 'up'))
-            if self.x >= map_size - 1:
-                self.x = map_size - 1
+            if self.x >= map_width - 1:
+                self.x = map_width - 1
                 self.direction = random.choice(('right', 'left', 'up', 'down'))
 
         if self.direction == 'down':
             if not is_wall(self.x, self.y + self.velocity):
                 self.y += self.velocity
             else: self.direction = random.choice(('right', 'left', 'up'))
-            if self.y >= map_size - 1:
-                self.y = map_size - 1
+            if self.y >= map_height - 1:
+                self.y = map_height - 1
                 self.direction = random.choice(('right', 'left', 'up', 'down'))
 
         if self.direction == 'left':
@@ -297,15 +297,15 @@ class Pacman(DynamicObject):
                 self.x += self.velocity
             elif not is_solid_wall(self.x + self.velocity, self.y):
                 self.x += self.velocity
-            if self.x >= map_size - 1:
-                self.x = map_size - 1
+            if self.x >= map_width - 1:
+                self.x = map_width - 1
         elif self.direction == 'down':
             if self.bonus == 'pickaxe':
                 self.y += self.velocity
             elif not is_solid_wall(self.x, self.y + self.velocity):
                 self.y += self.velocity
-            if self.y >= map_size - 1:
-                self.y = map_size - 1
+            if self.y >= map_height - 1:
+                self.y = map_height - 1
         elif self.direction == 'left':
             if self.bonus == 'pickaxe':
                 self.x -= self.velocity
@@ -328,6 +328,6 @@ class Pacman(DynamicObject):
         self.set_coord(self.x, self.y)
 
 
-pacman = Pacman(5, 8)
-blind_ghost = BlindGhost(2, 8)
-unblinded_ghost = UnblindedGhost(6, 11)
+pacman = Pacman(9, 8)
+blind_ghost = BlindGhost(6, 8)
+unblinded_ghost = UnblindedGhost(9, 11)
