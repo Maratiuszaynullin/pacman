@@ -68,6 +68,10 @@ def restart_lvl():
     global count_all_food
     count_all_food = m.MAP.count_food()
     pacman.count_food = 0
+    pacman.score = 0
+    pacman.bonus = None
+    blind_ghost.status = 'alive'
+    unblinded_ghost.status = 'alive'
 
 
 def next_lvl():
@@ -83,6 +87,10 @@ def next_lvl():
     (unblinded_ghost.x, unblinded_ghost.y) = (6, 11)
     m.MAP = Map(levels[pacman_lvl])
     count_all_food = m.MAP.count_food()
+    pacman.score = 0
+    pacman.bonus = None
+    blind_ghost.status = 'alive'
+    unblinded_ghost.status = 'alive'
 
 
 def draw_objects():
@@ -90,6 +98,16 @@ def draw_objects():
         for x in range(map_width):
             if m.MAP.get(x, y) != None:
                m. MAP.get(x, y).draw(screen)
+
+
+def draw_ghosts():
+    """This function draw alive ghosts."""
+    if unblinded_ghost.status == 'alive':
+        unblinded_ghost.draw(screen)
+        unblinded_ghost.game_tick()
+    if blind_ghost.status == 'alive':
+        blind_ghost.draw(screen)
+        blind_ghost.game_tick()
 
 
 def process_events(events, pac):
@@ -120,10 +138,7 @@ def game_tick():
     process_events(pygame.event.get(), pacman)
     pygame.time.delay(100)
     draw_background(screen, Textures.background)
-    unblinded_ghost.game_tick()
-    unblinded_ghost.draw(screen)
-    blind_ghost.game_tick()
-    blind_ghost.draw(screen)
+    draw_ghosts()
     pacman.game_tick()
     pacman.draw(screen)
     draw_objects()
