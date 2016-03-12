@@ -94,6 +94,7 @@ def restart_lvl():
     global count_all_food
     count_all_food = m.MAP.count_food()
     pacman.count_food = 0
+    pacman.score = 0
 
 
 def next_lvl():
@@ -110,6 +111,7 @@ def next_lvl():
     (unblinded_ghost.x, unblinded_ghost.y) = (6, 11)
     m.MAP = Map(levels[pacman_lvl])
     count_all_food = m.MAP.count_food()
+    pacman.score = 0
 
 
 def draw_objects():
@@ -156,10 +158,6 @@ def process_events(events, pac):
             elif event.key == K_SPACE:
                 pac.direction = 0
 
-
-"""def tick_timer(x = 0):
-    x += 1
-    pac.direction = 'stop'"""
 
 def game_tick():
     """Functions that are used every tick."""
