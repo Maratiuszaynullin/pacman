@@ -1,9 +1,14 @@
-# coding: utf-8
 from static_object import *  # import walls, food, bonuses
 
 
 class Map:
+    """This class describes game map."""
     def __init__(self, filename):
+        """This function reads txt file
+        and create two-dimensional list
+        with static objects references.
+
+        """
         f = open(filename, 'r')
         txt = f.readlines()
         f.close()
@@ -26,9 +31,17 @@ class Map:
                     self.data[y][x] = None
 
     def get(self, x, y):
+        """This function returns static object
+        with given coordinates.
+
+        """
         return self.data[int(y)][int(x)]
 
     def count_food(self):
+        """This function counts how many food on the map.
+        It is need to draw map.
+
+        """
         count = 0
         for y in range(len(self.data)):
             for x in range(len(self.data[0])):

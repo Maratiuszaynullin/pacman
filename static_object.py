@@ -51,14 +51,6 @@ class Food(StaticObject):
         StaticObject.__init__(self, Textures.food, x, y)
 
 
-#class Bonus(StaticObject):
-    """This class describes bonuses
-    that modified pacman behavior.
-
-    """
-    #pass
-
-
 class Pickaxe(StaticObject):
     """This class describes bonus
     that help pacman crush solid walls.
