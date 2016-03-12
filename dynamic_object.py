@@ -1,21 +1,26 @@
 # coding: utf-8
-from map import * # import all static objects and map
+from map import *  # import all static objects and lvl_0
 import random
+import main as m
 
 
 def is_solid_wall(x, y):
-    return isinstance(MAP.data[int(y)][int(x)], SolidWall)
+    """This function checks if it is solid wall on this coordinates."""
+    return isinstance(m.MAP.data[int(y)][int(x)], SolidWall)
 
 
 def is_fragile_wall(x, y):
-    return isinstance(MAP.data[int(y)][int(x)], FragileWall)
+    """This function checks if it is fragile wall on this coordinates."""
+    return isinstance(m.MAP.data[int(y)][int(x)], FragileWall)
 
 
 def is_wall(x, y):
+    """This function checks if it is wall with on coordinates."""
     return is_solid_wall(x, y) or is_fragile_wall(x, y)
 
 
 class DynamicObject(pygame.sprite.Sprite):
+    """This is the base class for all dynamic objects (pacman, ghosts)."""
     def __init__(self, img, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = img
@@ -38,196 +43,221 @@ class DynamicObject(pygame.sprite.Sprite):
 
 
 class BlindGhost(DynamicObject):
+    """This class describes ghost that can't see pacman.
+    This ghost moves randomly.
+    If ghost run into wall or card edge, it chooses new random direction.
+    It has two images for different directions.
+
+    """
     def __init__(self, x, y):
-        DynamicObject.__init__(self, Textures.blind_ghost, x, y)
-        self.direction = 0
+        DynamicObject.__init__(self, Textures.blind_ghost_right, x, y)
+        self.direction = 'stop'
         self.velocity = 4.0 / 10.0
         #self.status = 'alive'
 
     def game_tick(self):
         super(BlindGhost, self).game_tick()
-        if self.tick % 20 == 0 or self.direction == 0:
-            self.direction = random.randint(1, 4)
+        if self.tick % 20 == 0 or self.direction == 'stop':
+            self.direction = random.choice(('right', 'left', 'up', 'down'))
 
-        if self.direction == 1:
+        if self.direction == 'right':
+            self.image = Textures.blind_ghost_right
             if not is_wall(self.x + self.velocity, self.y):
                 self.x += self.velocity
-            else: self.direction = random.choice((2, 3, 4))
+            else: self.direction = random.choice(('down', 'left', 'up'))
             if self.x >= map_size - 1:
                 self.x = map_size - 1
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice(('right', 'left', 'up', 'down'))
 
-        if self.direction == 2:
+        if self.direction == 'down':
             if not is_wall(self.x, self.y + self.velocity):
                 self.y += self.velocity
-            else: self.direction = random.choice((1, 3, 4))
+            else: self.direction = random.choice(('right', 'left', 'up'))
             if self.y >= map_size - 1:
                 self.y = map_size - 1
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice(('right', 'left', 'up', 'down'))
 
-        if self.direction == 3:
+        if self.direction == 'left':
+            self.image = Textures.blind_ghost_left
             if not is_wall(self.x - self.velocity, self.y):
                 self.x -= self.velocity
-            else: self.direction = random.choice((1, 2, 4))
+            else: self.direction = random.choice(('right', 'up', 'down'))
             if self.x <= 0:
                 self.x = 0
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice(('right', 'left', 'up', 'down'))
 
-        if self.direction == 4:
+        if self.direction == 'up':
             if not is_wall(self.x, self.y - self.velocity):
                 self.y -= self.velocity
-            else: self.direction = random.choice((1, 2, 3))
+            else: self.direction = random.choice(('right', 'down', 'left'))
             if self.y <= 0:
                 self.y = 0
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice(('right', 'left', 'up', 'down'))
 
         self.set_coord(self.x, self.y)
 
 
 class UnblindedGhost(DynamicObject):
+    """This class describes unblinded ghost.
+    He moves randomly, but when pacman is in front of him, he goes to pacman.
+
+    """
     def __init__(self, x, y):
-        DynamicObject.__init__(self, Textures.unblinded_ghost, x, y)
-        self.direction = 0
+        DynamicObject.__init__(self, Textures.unblinded_ghost_right, x, y)
+        self.direction = 'stop'
         self.velocity = 4.0 / 10.0
         #self.status = 'alive'
 
-    def ghost_AI(self):
-        direction = 0
+    def ghost_ai(self):
+        direction = 'stop'
         if floor(self.x) == floor(pacman.x):
             for i in range(abs(int(self.y) - int(pacman.y))):
                 if self.y > pacman.y:
                     if is_wall(self.x, self.y - i):
-                        direction = 0
+                        direction = 'stop'
                         break
-                    else: direction = 4
+                    else: direction = 'up'
                 else:
                     if is_wall(self.x, self.y + i):
-                        direction = 0
+                        direction = 'stop'
                         break
-                    else: direction = 2       #elif ghost_fear: self.direction = up // else: self.direction == down
+                    else: direction = 'down'       #elif ghost_fear: self.direction = up // else: self.direction == down
         if floor(self.y) == floor(pacman.y):
             for i in range(abs(int(self.x) - int(pacman.x))):
                 if self.x > pacman.x:
                     if is_wall(self.x - i, self.y):
-                        direction = 0
+                        direction = 'stop'
                         break
-                    else: direction = 3
+                    else: direction = 'left'
                 else:
                     if is_wall(self.x + i, self.y):
-                        direction = 0
+                        direction = 'stop'
                         break
-                    else: direction = 1
+                    else: direction = 'right'
         return direction
 
     def game_tick(self):
         super(UnblindedGhost, self).game_tick()
-        if self.direction == 0:
-            self.direction = random.randint(1, 4)
+        if self.direction == 'stop':
+            self.direction = random.choice(('right', 'left', 'up', 'down'))
 
-        if self.ghost_AI() != 0: self.direction = self.ghost_AI()
+        if self.ghost_ai() != 'stop': self.direction = self.ghost_ai()
 
-        if self.direction == 1:
+        if self.direction == 'right':
+            self.image = Textures.unblinded_ghost_right
             if not is_wall(self.x + self.velocity, self.y):
                 self.x += self.velocity
-            else: self.direction = random.choice((2, 3, 4))
+            else: self.direction = random.choice(('down', 'left', 'up'))
             if self.x >= map_size - 1:
                 self.x = map_size - 1
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice(('right', 'left', 'up', 'down'))
 
-        if self.direction == 2:
+        if self.direction == 'down':
             if not is_wall(self.x, self.y + self.velocity):
                 self.y += self.velocity
-            else: self.direction = random.choice((1, 3, 4))
+            else: self.direction = random.choice(('right', 'left', 'up'))
             if self.y >= map_size - 1:
                 self.y = map_size - 1
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice(('right', 'left', 'up', 'down'))
 
-        if self.direction == 3:
+        if self.direction == 'left':
+            self.image = Textures.unblinded_ghost_left
             if not is_wall(self.x - self.velocity, self.y):
                 self.x -= self.velocity
-            else: self.direction = random.choice((1, 2, 4))
+            else: self.direction = random.choice(('right', 'up', 'down'))
             if self.x <= 0:
                 self.x = 0
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice(('right', 'left', 'up', 'down'))
 
-        if self.direction == 4:
+        if self.direction == 'up':
             if not is_wall(self.x, self.y - self.velocity):
                 self.y -= self.velocity
-            else: self.direction = random.choice((1, 2, 3))
+            else: self.direction = random.choice(('right', 'down', 'left'))
             if self.y <= 0:
                 self.y = 0
-                self.direction = random.randint(1, 4)
+                self.direction = random.choice(('right', 'left', 'up', 'down'))
 
         self.set_coord(self.x, self.y)
 
 
 class Pacman(DynamicObject):
+    """This class describes pacman.
+    Pacman can eat food, crush fragile walls
+    and have can have different abilities, if he has bonus.
+
+    """
     def __init__(self, x, y):
-        DynamicObject.__init__(self, Textures.pacman, x, y)
-        self.direction = 0
+        DynamicObject.__init__(self, Textures.pacman_right, x, y)
+        self.direction = 'stop'
         self.velocity = 4.0 / 10.0
         self.count_food = 0
         self.bonus = None
         self.bonus_time = 0
 
     def eat(self):
-        if isinstance(MAP.data[int(self.y)][int(self.x)], Food):
-            MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Food):
+            m.MAP.data[int(self.y)][int(self.x)] = None
             self.count_food += 1
-        if isinstance(MAP.data[int(self.y)][int(self.x)], Pickaxe):
-            MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Pickaxe):
+            m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'pickaxe'
-        if isinstance(MAP.data[int(self.y)][int(self.x)], Elixir):
-            MAP.data[int(self.y)][int(self.x)] = None
+            self.velocity = 4.0 / 10.0
+        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Elixir):
+            m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'elixir'
             self.bonus_time = 70
-        if isinstance(MAP.data[int(self.y)][int(self.x)], Sword):
-            MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Sword):
+            m.MAP.data[int(self.y)][int(self.x)] = None
             self.bonus = 'sword'
+            self.velocity = 4.0 / 10.0
 
     def crush_wall(self):
         if is_fragile_wall(self.x, self.y):
-            MAP.data[int(self.y)][int(self.x)] = None
+            m.MAP.data[int(self.y)][int(self.x)] = None
 
     def pacman_with_bonus(self):
-        if self.bonus == 'pickaxe':
+        if self.bonus == 'pickaxe':  # This bonus help pacman crush solid walls.
             if is_solid_wall(self.x, self.y):
-                MAP.data[int(self.y)][int(self.x)] = None
+                m.MAP.data[int(self.y)][int(self.x)] = None
                 self.bonus = None
-        if self.bonus == 'elixir':
+        if self.bonus == 'elixir':  # This bonus increases pacman speed.
             if self.bonus_time != 0:
                 self.velocity = 8.0 / 10.0
                 self.bonus_time -= 1
             else:
                 self.bonus = None
                 self.velocity = 4.0 / 10.0
-        #if self.bonus == 'sword':
+        #if self.bonus == 'sword':  # With this bonus pacman can kill ghost
         #    if isinstance(MAP.data[int(self.y)][int(self.x)], BlindGhost)
 
     def game_tick(self):
         super(Pacman, self).game_tick()
-        if self.direction == 1:
+        if self.direction == 'right':
+            self.image = Textures.pacman_right
             if self.bonus == 'pickaxe':
                 self.x += self.velocity
             elif not is_solid_wall(self.x + self.velocity, self.y):
                 self.x += self.velocity
             if self.x >= map_size - 1:
                 self.x = map_size - 1
-        elif self.direction == 2:
+        elif self.direction == 'down':
+            self.image = Textures.pacman_down
             if self.bonus == 'pickaxe':
                 self.y += self.velocity
             elif not is_solid_wall(self.x, self.y + self.velocity):
                 self.y += self.velocity
             if self.y >= map_size - 1:
                 self.y = map_size - 1
-        elif self.direction == 3:
+        elif self.direction == 'left':
+            self.image = Textures.pacman_left
             if self.bonus == 'pickaxe':
                 self.x -= self.velocity
             elif not is_solid_wall(self.x - self.velocity, self.y):
                 self.x -= self.velocity
             if self.x <= 0:
                 self.x = 0
-        elif self.direction == 4:
+        elif self.direction == 'up':
+            self.image = Textures.pacman_up
             if self.bonus == 'pickaxe':
                 self.y -= self.velocity
             elif not is_solid_wall(self.x, self.y - self.velocity):
@@ -243,5 +273,5 @@ class Pacman(DynamicObject):
 
 
 pacman = Pacman(5, 8)
-blind_ghost = BlindGhost(5, 11)
+blind_ghost = BlindGhost(2, 8)
 unblinded_ghost = UnblindedGhost(6, 11)

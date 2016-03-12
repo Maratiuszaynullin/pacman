@@ -60,7 +60,7 @@ def you_lose():  # FIXME
 
 class Map:
     def __init__(self, filename):
-        f = open('map', 'r')
+        f = open('lvl_0', 'r')
         txt = f.readlines()
         f.close()
         self.data = [[0] * (len(txt)) for i in range(len(txt))]
@@ -113,7 +113,7 @@ class GameObject(pygame.sprite.Sprite):
         scr.blit(self.image, (self.screen_rect.x, self.screen_rect.y))
 
         # def is_Immortal_wall(wall_x, wall_y):
-        #   if type(map.get(int(wall_x)), int(wall_y)) == Immortal_wall:
+        #   if type(lvl_0.get(int(wall_x)), int(wall_y)) == Immortal_wall:
         #      return 1
         # else:
         #    return 0
@@ -296,7 +296,7 @@ class Pacman(GameObject):
             map.data[int(self.y)][int(self.x)] = None
 
     # def eat_bonus(self):
-    #   if type(map.get(int(self.x), int(self.y))) == Speed_bonus:
+    #   if type(lvl_0.get(int(self.x), int(self.y))) == Speed_bonus:
 
 
     def game_tick(self):
@@ -376,7 +376,7 @@ if __name__ == '__main__':
     blind_ghost = Ghost(0, 0, tile_size, map_size)
     pacman = Pacman(5, 5, tile_size, map_size)
 
-    map = Map('map')
+    map = Map('lvl_0')
     background = pygame.image.load("./resources/background.png")
     screen = pygame.display.get_surface()
 

@@ -1,5 +1,5 @@
 # coding: utf-8
-from textures import * #import all images
+from textures import *  #import all images
 from math import floor
 from pygame.locals import *
 
@@ -52,14 +52,6 @@ class Food(StaticObject):
     """This class describes pacman's food."""
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.food, x, y)
-
-
-#class Bonus(StaticObject):
-    """This class describes bonuses
-    that modified pacman behavior.
-
-    """
-    #pass
 
 
 class Pickaxe(StaticObject):
