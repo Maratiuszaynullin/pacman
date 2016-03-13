@@ -7,7 +7,6 @@ from pygame.locals import *
 class StaticObject(pygame.sprite.Sprite):
     """This is the base class
     for all static objects (walls, food, bonuses).
-
     """
     def __init__(self, img, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -75,3 +74,8 @@ class Elixir(StaticObject):
     """
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.elixir, x, y)
+
+
+class Score(StaticObject):
+    def __init__(self, img, x, y):
+        StaticObject.__init__(self, img, x, y)

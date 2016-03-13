@@ -29,13 +29,41 @@ def draw_background(scr, img=None):
         scr.blit(bg, (0, 0))
 
 
+def draw_objects():
+    """This function draws static objects."""
+    for y in range(map_height):
+        for x in range(map_width):
+            if m.MAP.get(x, y) is not None:
+               m.MAP.get(x, y).draw(screen)
+
+
+def draw_ghosts():
+    """This function draw alive ghosts."""
+    if unblinded_ghost.status == 'alive':
+        unblinded_ghost.draw(screen)
+        unblinded_ghost.game_tick()
+    if blind_ghost.status == 'alive':
+        blind_ghost.draw(screen)
+        blind_ghost.game_tick()
+
+
+def draw_score(scr, x=160, y=591):
+    """This function draws score during the game."""
+    for i in range(10):
+        if pacman.score // 10 == i:
+            #Score(Textures.score[i], 0, 0).draw(screen)
+            scr.blit(Textures.score[i], (x, y))
+    for i in range(10):
+        if pacman.score % 10 == i:
+            scr.blit(Textures.score[i], (x + 32, y))
+
+
 def game_over(img):
     """When you win or lose this function draw
     suitable background and show your score.
     """
     draw_background(screen, img)
-    you_score = pacman.score
-    print('You score', you_score)
+    draw_score(screen, 389, 366)
     process_events(pygame.event.get(), pacman)
 
 
@@ -94,24 +122,6 @@ def next_lvl():
     restart_lvl()
 
 
-def draw_objects():
-    """This function draws static objects."""
-    for y in range(map_height):
-        for x in range(map_width):
-            if m.MAP.get(x, y) is not None:
-               m.MAP.get(x, y).draw(screen)
-
-
-def draw_ghosts():
-    """This function draw alive ghosts."""
-    if unblinded_ghost.status == 'alive':
-        unblinded_ghost.draw(screen)
-        unblinded_ghost.game_tick()
-    if blind_ghost.status == 'alive':
-        blind_ghost.draw(screen)
-        blind_ghost.game_tick()
-
-
 def process_events(events, pac):
     """This function help control the game
     (pacman, restart game, continue game) with keyboard.
@@ -148,6 +158,8 @@ def game_tick():
     pacman.game_tick()
     pacman.draw(screen)
     draw_objects()
+    draw_score(screen)
+    print pacman.score
     pygame.display.update()
 
 

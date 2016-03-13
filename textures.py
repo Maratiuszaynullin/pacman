@@ -47,3 +47,14 @@ class Textures:
     lose_screen = pygame.image.load('./resources/lose_screen.png')
     background = pygame.image.load('./resources/background.png')
     gui1 = pygame.image.load('./resources/gui1.png')
+
+    score = [pygame.image.load('./resources/font/0.png'),
+    pygame.image.load('./resources/font/1.png'),
+    pygame.image.load('./resources/font/2.png'),
+    pygame.image.load('./resources/font/3.png'),
+    pygame.image.load('./resources/font/4.png'),
+    pygame.image.load('./resources/font/5.png'),
+    pygame.image.load('./resources/font/6.png'),
+    pygame.image.load('./resources/font/7.png'),
+    pygame.image.load('./resources/font/8.png'),
+    pygame.image.load('./resources/font/9.png'),]
