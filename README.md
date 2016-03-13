@@ -1,5 +1,5 @@
 # pacman
         Pacman
+Ksenia Lupyr'
 Marat Zaynullin
-Ksenia Lupir
 

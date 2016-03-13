@@ -98,8 +98,8 @@ def draw_objects():
     """This function draws static objects."""
     for y in range(map_height):
         for x in range(map_width):
-            if m.MAP.get(x, y) != None:
-               m. MAP.get(x, y).draw(screen)
+            if m.MAP.get(x, y) is not None:
+               m.MAP.get(x, y).draw(screen)
 
 
 def draw_ghosts():
@@ -174,4 +174,3 @@ if __name__ == '__main__':
             t += 1
             if t % 10 == 0:
                 print "lvl =", pacman_lvl
-

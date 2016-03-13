@@ -1,5 +1,5 @@
 # coding: utf-8
-from textures import *  #import all images
+from textures import *  # import all images
 from math import floor
 from pygame.locals import *
 
@@ -15,7 +15,6 @@ class StaticObject(pygame.sprite.Sprite):
         self.screen_rect = None
         self.x = 0
         self.y = 0
-        #self.tick = 0
         self.set_coord(x, y)
 
     def set_coord(self, x, y):
