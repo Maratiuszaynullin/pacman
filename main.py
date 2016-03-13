@@ -61,16 +61,17 @@ MAP = set_map()"""
 
 
 def restart_lvl():
+    global count_all_food
     (pacman.x, pacman.y) = (9, 8)
     (blind_ghost.x, blind_ghost.y) = (3, 8)
     (unblinded_ghost.x, unblinded_ghost.y) = (9, 11)
     pacman.direction = unblinded_ghost.direction = 'stop'
     m.MAP = Map(levels[pacman_lvl])
-    global count_all_food
     count_all_food = m.MAP.count_food()
     pacman.count_food = 0
     pacman.score = 0
     pacman.bonus = None
+    pacman.velocity = 4.0/10.0
     pacman.image = Textures.pacman_right
     blind_ghost.status = 'alive'
     unblinded_ghost.status = 'alive'
@@ -79,18 +80,7 @@ def restart_lvl():
 def next_lvl():
     global pacman_lvl, count_all_food
     pacman_lvl += 1
-    pacman.count_food = 0
-    pacman.direction = unblinded_ghost.direction = 'stop'
-    (pacman.x, pacman.y) = (9, 8)
-    (blind_ghost.x, blind_ghost.y) = (3, 8)
-    (unblinded_ghost.x, unblinded_ghost.y) = (9, 11)
-    m.MAP = Map(levels[pacman_lvl])
-    count_all_food = m.MAP.count_food()
-    pacman.score = 0
-    pacman.bonus = None
-    pacman.image = Textures.pacman_right
-    blind_ghost.status = 'alive'
-    unblinded_ghost.status = 'alive'
+    restart_lvl()
 
 
 def draw_objects():
