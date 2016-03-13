@@ -43,10 +43,9 @@ class Textures:
     sword = pygame.image.load('./resources/items/iron_sword.png')
     elixir = pygame.image.load('./resources/items/elixir.png')
 
-    win_screen = pygame.image.load('./resources/win_screen.png')
-    lose_screen = pygame.image.load('./resources/lose_screen.png')
-    background = pygame.image.load('./resources/background.png')
-    gui1 = pygame.image.load('./resources/gui1.png')
+    win_screen = pygame.image.load('./resources/screen/win_screen.png')
+    lose_screen = pygame.image.load('./resources/screen/lose_screen.png')
+    background = pygame.image.load('./resources/screen/background.png')
 
     score = [pygame.image.load('./resources/font/0.png'),
     pygame.image.load('./resources/font/1.png'),

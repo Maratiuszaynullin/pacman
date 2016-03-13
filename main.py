@@ -47,7 +47,7 @@ def draw_ghosts():
         blind_ghost.game_tick()
 
 
-def draw_score(scr, x=160, y=591):
+def draw_score(scr, x=140, y=576):
     """This function draws score during the game."""
     for i in range(10):
         if pacman.score // 10 == i:
@@ -55,7 +55,7 @@ def draw_score(scr, x=160, y=591):
             scr.blit(Textures.score[i], (x, y))
     for i in range(10):
         if pacman.score % 10 == i:
-            scr.blit(Textures.score[i], (x + 32, y))
+            scr.blit(Textures.score[i], (x + 24, y))
 
 
 def game_over(img):
@@ -63,7 +63,7 @@ def game_over(img):
     suitable background and show your score.
     """
     draw_background(screen, img)
-    draw_score(screen, 389, 366)
+    draw_score(screen, 370, 350)
     process_events(pygame.event.get(), pacman)
 
 
@@ -86,15 +86,6 @@ def you_lose():
         return 'true'
     else:
         return 'false'
-
-
-"""def set_map():
-    global MAP
-    if you_lose() == 'true':
-        MAP = Map('./maps/lvl_1')
-    else: MAP = MAP = Map('./maps/lvl_0')
-    return MAP
-MAP = set_map()"""
 
 
 def restart_lvl():
