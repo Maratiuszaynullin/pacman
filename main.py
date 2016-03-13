@@ -11,12 +11,16 @@ t = 0
 
 
 def init_window():
+    """This function create game window."""
     pygame.init()
     pygame.display.set_mode((704, 640))
     pygame.display.set_caption('Pacman')
 
 
 def draw_background(scr, img=None):
+    """This function takes image and draw background with this image.
+    If image is not given background is filled with black color.
+    """
     if img:
         scr.blit(img, (0, 0))
     else:
@@ -25,18 +29,20 @@ def draw_background(scr, img=None):
         scr.blit(bg, (0, 0))
 
 
-def score(count_food):
-    return pacman.count_food
-
-
 def game_over(img):
+    """When you win or lose this function draw
+    suitable background and show your score.
+    """
     draw_background(screen, img)
-    you_score = score(pacman.count_food)
+    you_score = pacman.score
     print('You score', you_score)
     process_events(pygame.event.get(), pacman)
 
 
 def you_win():
+    """This function checks if pacman ate all the food on the map.
+    Return true or false.
+    """
     if pacman.count_food == count_all_food:
         return 'true'
     else:
@@ -44,6 +50,9 @@ def you_win():
 
 
 def you_lose():
+    """This function checks if pacman ran into ghost.
+    Return true or false.
+    """
     if (floor(pacman.x) == floor(blind_ghost.x) and floor(pacman.y) == floor(blind_ghost.y)) or \
             (floor(pacman.x) == floor(unblinded_ghost.x) and floor(pacman.y) == floor(unblinded_ghost.y)):
         return 'true'
@@ -61,6 +70,7 @@ MAP = set_map()"""
 
 
 def restart_lvl():
+    """This function sets opening settings."""
     global count_all_food
     (pacman.x, pacman.y) = (9, 8)
     (blind_ghost.x, blind_ghost.y) = (3, 8)
@@ -78,12 +88,14 @@ def restart_lvl():
 
 
 def next_lvl():
+    """This function sets opening setting when player go to next lvl."""
     global pacman_lvl, count_all_food
     pacman_lvl += 1
     restart_lvl()
 
 
 def draw_objects():
+    """This function draws static objects."""
     for y in range(map_height):
         for x in range(map_width):
             if m.MAP.get(x, y) != None:
@@ -101,6 +113,9 @@ def draw_ghosts():
 
 
 def process_events(events, pac):
+    """This function help control the game
+    (pacman, restart game, continue game) with keyboard.
+    """
     for event in events:
         if you_win() == 'true':
             if event.type == KEYDOWN and event.key == K_RETURN:
@@ -125,6 +140,7 @@ def process_events(events, pac):
 
 
 def game_tick():
+    """Functions that are used every tick."""
     process_events(pygame.event.get(), pacman)
     pygame.time.delay(100)
     draw_background(screen, Textures.background)

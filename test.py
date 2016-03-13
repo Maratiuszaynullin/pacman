@@ -7,7 +7,7 @@ class UnblindedGhostTest(unittest.TestCase):
 
     def setUp(self):
         self.results_list = ['up', 'down', 'left', 'right']
-        self.ghost_list = [UnblindedGhost(5, 15), UnblindedGhost(5, 0), UnblindedGhost(15, 8), UnblindedGhost(0, 8)]
+        self.ghost_list = [UnblindedGhost(9, 15), UnblindedGhost(9, 0), UnblindedGhost(19, 8), UnblindedGhost(0, 8)]
 
     def test_ghost_ai_without_walls(self):
         """This function tests how ghost can 'see' pacman.
