@@ -246,10 +246,53 @@ class Pacman(DynamicObject):
                 self.bonus = None
                 self.score += 5
 
+
+    def set_direction_image(self):
+        """This function sets pacman image that depends on direction and bonus."""
+        if self.bonus == None:
+            if self.direction == 'up':
+                self.image = Textures.pacman_up
+            elif self.direction == 'right':
+                self.image = Textures.pacman_right
+            elif self.direction == 'left':
+                self.image = Textures.pacman_left
+            elif self.direction == 'down':
+                self.image = Textures.pacman_down
+
+        if self.bonus == 'pickaxe':
+            if self.direction == 'up':
+                self.image = Textures.pacman_up_with_pickaxe
+            elif self.direction == 'right':
+                self.image = Textures.pacman_right_with_pickaxe
+            elif self.direction == 'left':
+                self.image = Textures.pacman_left_with_pickaxe
+            elif self.direction == 'down':
+                self.image = Textures.pacman_down_with_pickaxe
+
+        if self.bonus == 'elixir':
+            if self.direction == 'up':
+                self.image = Textures.pacman_up_with_elixir
+            elif self.direction == 'right':
+                self.image = Textures.pacman_right_with_elixir
+            elif self.direction == 'left':
+                self.image = Textures.pacman_left_with_elixir
+            elif self.direction == 'down':
+                self.image = Textures.pacman_down_with_elixir
+
+        if self.bonus == 'sword':
+            if self.direction == 'up':
+                self.image = Textures.pacman_up_with_sword
+            elif self.direction == 'right':
+                self.image = Textures.pacman_right_with_sword
+            elif self.direction == 'left':
+                self.image = Textures.pacman_left_with_sword
+            elif self.direction == 'down':
+                self.image = Textures.pacman_down_with_sword
+
+
     def game_tick(self):
         super(Pacman, self).game_tick()
         if self.direction == 'right':
-            self.image = Textures.pacman_right
             if self.bonus == 'pickaxe':
                 self.x += self.velocity
             elif not is_solid_wall(self.x + self.velocity, self.y):
@@ -257,7 +300,6 @@ class Pacman(DynamicObject):
             if self.x >= map_width - 1:
                 self.x = map_width - 1
         elif self.direction == 'down':
-            self.image = Textures.pacman_down
             if self.bonus == 'pickaxe':
                 self.y += self.velocity
             elif not is_solid_wall(self.x, self.y + self.velocity):
@@ -265,7 +307,6 @@ class Pacman(DynamicObject):
             if self.y >= map_height - 1:
                 self.y = map_height - 1
         elif self.direction == 'left':
-            self.image = Textures.pacman_left
             if self.bonus == 'pickaxe':
                 self.x -= self.velocity
             elif not is_solid_wall(self.x - self.velocity, self.y):
@@ -273,7 +314,6 @@ class Pacman(DynamicObject):
             if self.x <= 0:
                 self.x = 0
         elif self.direction == 'up':
-            self.image = Textures.pacman_up
             if self.bonus == 'pickaxe':
                 self.y -= self.velocity
             elif not is_solid_wall(self.x, self.y - self.velocity):
@@ -284,7 +324,7 @@ class Pacman(DynamicObject):
         self.eat_static_objects()
         self.crush_wall()
         self.pacman_with_bonus()
-        #self.set_direction_image(self.direction)
+        self.set_direction_image()
         self.set_coord(self.x, self.y)
 
 
