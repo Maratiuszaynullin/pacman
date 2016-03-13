@@ -71,6 +71,7 @@ def restart_lvl():
     pacman.count_food = 0
     pacman.score = 0
     pacman.bonus = None
+    pacman.image = Textures.pacman_right
     blind_ghost.status = 'alive'
     unblinded_ghost.status = 'alive'
 
@@ -87,6 +88,7 @@ def next_lvl():
     count_all_food = m.MAP.count_food()
     pacman.score = 0
     pacman.bonus = None
+    pacman.image = Textures.pacman_right
     blind_ghost.status = 'alive'
     unblinded_ghost.status = 'alive'
 
