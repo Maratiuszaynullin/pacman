@@ -4,6 +4,7 @@ from map import *
 import sys
 pacman_lvl = 0
 levels = ['./maps/lvl_0', './maps/lvl_1', './maps/lvl_2', './maps/lvl_3', './maps/lvl_4']
+max_lvl = 4
 MAP = Map(levels[pacman_lvl])
 count_all_food = MAP.count_food()
 t = 0
@@ -29,10 +30,10 @@ def score(count_food):
 
 
 def game_over(img):
-    process_events(pygame.event.get(), pacman)
     draw_background(screen, img)
     you_score = score(pacman.count_food)
     print('You score', you_score)
+    process_events(pygame.event.get(), pacman)
 
 
 def you_win():
@@ -60,9 +61,9 @@ MAP = set_map()"""
 
 
 def restart_lvl():
-    (pacman.x, pacman.y) = (5, 8)
-    (blind_ghost.x, blind_ghost.y) = (2, 8)
-    (unblinded_ghost.x, unblinded_ghost.y) = (6, 11)
+    (pacman.x, pacman.y) = (9, 8)
+    (blind_ghost.x, blind_ghost.y) = (3, 8)
+    (unblinded_ghost.x, unblinded_ghost.y) = (9, 11)
     pacman.direction = unblinded_ghost.direction = 'stop'
     m.MAP = Map(levels[pacman_lvl])
     global count_all_food
@@ -75,16 +76,13 @@ def restart_lvl():
 
 
 def next_lvl():
-    draw_background(screen, Textures.background)
-    pygame.display.update()
-    pygame.time.delay(1000)
     global pacman_lvl, count_all_food
     pacman_lvl += 1
     pacman.count_food = 0
     pacman.direction = unblinded_ghost.direction = 'stop'
-    (pacman.x, pacman.y) = (5, 8)
-    (blind_ghost.x, blind_ghost.y) = (2, 8)
-    (unblinded_ghost.x, unblinded_ghost.y) = (6, 11)
+    (pacman.x, pacman.y) = (9, 8)
+    (blind_ghost.x, blind_ghost.y) = (3, 8)
+    (unblinded_ghost.x, unblinded_ghost.y) = (9, 11)
     m.MAP = Map(levels[pacman_lvl])
     count_all_food = m.MAP.count_food()
     pacman.score = 0
@@ -151,11 +149,16 @@ if __name__ == '__main__':
 
     while 1:
         if you_win() == 'true':
-            pygame.time.delay(1000)
-            game_over(Textures.win_screen)
+            img = Textures.win_screen
+            if pacman_lvl == max_lvl:
+                pacman_lvl = -1
+                #img = Textures make game_over screen with total score, score, new_game. Make main_screen. Make score pictures
+            pygame.time.delay(50)
+            game_over(img)
             pygame.display.update()
+
         elif you_lose() == 'true':
-            pygame.time.delay(1000)
+            pygame.time.delay(50)
             game_over(Textures.lose_screen)
             pygame.display.update()
         else:

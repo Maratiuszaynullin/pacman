@@ -329,5 +329,5 @@ class Pacman(DynamicObject):
 
 
 pacman = Pacman(9, 8)
-blind_ghost = BlindGhost(6, 8)
+blind_ghost = BlindGhost(3, 8)
 unblinded_ghost = UnblindedGhost(9, 11)

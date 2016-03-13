@@ -43,7 +43,7 @@ class Textures:
     sword = pygame.image.load('./resources/items/iron_sword.png')
     elixir = pygame.image.load('./resources/items/elixir.png')
 
-    win_screen = pygame.image.load('./resources/you_win.png')
+    win_screen = pygame.image.load('./resources/win_screen.png')
     lose_screen = pygame.image.load('./resources/lose_screen.png')
     background = pygame.image.load('./resources/background.png')
     gui1 = pygame.image.load('./resources/gui1.png')
