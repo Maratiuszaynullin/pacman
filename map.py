@@ -4,7 +4,7 @@ from static_object import *  # import walls, food, bonuses
 class Map:
     """This class describes game map."""
     def __init__(self, filename):
-        """This function reads txt file and create two-dimensional list
+        """This function reads a txt file and creates a two-dimensional list
         with static objects references.
         """
         f = open(filename, 'r')
@@ -29,12 +29,12 @@ class Map:
                     self.data[y][x] = None
 
     def get(self, x, y):
-        """This function returns static object with given coordinates."""
+        """This function returns a static object with given coordinates."""
         return self.data[int(y)][int(x)]
 
     def count_food(self):
-        """This function counts how many food on the map.
-        It is necessary to draw map.
+        """This function counts how many food is on the map.
+        It is necessary for drawing a map.
         """
         count = 0
         for y in range(len(self.data)):

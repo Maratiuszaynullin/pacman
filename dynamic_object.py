@@ -4,17 +4,17 @@ import main as m
 
 
 def is_solid_wall(x, y):
-    """This function checks if it is solid wall on this coordinates."""
+    """This function checks if there is a solid wall on this coordinates."""
     return isinstance(m.MAP.data[int(y)][int(x)], SolidWall)
 
 
 def is_fragile_wall(x, y):
-    """This function checks if it is fragile wall on this coordinates."""
+    """This function checks if there is a fragile wall on this coordinates."""
     return isinstance(m.MAP.data[int(y)][int(x)], FragileWall)
 
 
 def is_wall(x, y):
-    """This function checks if it is wall with on coordinates."""
+    """This function checks if there is a wall with on coordinates."""
     return is_solid_wall(x, y) or is_fragile_wall(x, y)
 
 
@@ -42,9 +42,9 @@ class DynamicObject(pygame.sprite.Sprite):
 
 
 class BlindGhost(DynamicObject):
-    """This class describes ghost that can't see pacman.
+    """This class describes a ghost that can't see the pacman.
     This ghost moves randomly.
-    If ghost run into wall or card edge, it chooses new random direction.
+    If ghost runs into a wall or a card edge, it chooses a new random direction.
     It has two images for different directions.
     """
     def __init__(self, x, y):
@@ -194,7 +194,7 @@ class UnblindedGhost(DynamicObject):
 class Pacman(DynamicObject):
     """This class describes pacman.
     Pacman can eat food, crush fragile walls
-    and have can have different abilities, if he has bonus.
+    and have different abilities, if he has bonus.
     """
     def __init__(self, x, y):
         DynamicObject.__init__(self, Textures.pacman_right, x, y)
@@ -232,7 +232,7 @@ class Pacman(DynamicObject):
             self.score += 2
 
     def pacman_with_bonus(self):
-        if self.bonus == 'pickaxe':  # This bonus help pacman crush solid walls.
+        if self.bonus == 'pickaxe':  # This bonus helps pacman crush solid walls.
             if is_solid_wall(self.x, self.y):
                 m.MAP.data[int(self.y)][int(self.x)] = None
                 self.bonus = None
@@ -244,7 +244,7 @@ class Pacman(DynamicObject):
             else:
                 self.bonus = None
                 self.velocity = 4.0 / 10.0
-        if self.bonus == 'sword':  # With this bonus pacman can kill ghost
+        if self.bonus == 'sword':  # With this bonus pacman can kill a ghost
             if floor(pacman.x) == floor(unblinded_ghost.x) and floor(pacman.y) == floor(unblinded_ghost.y):
                 unblinded_ghost.status = 'dead'
                 unblinded_ghost.x = -1
@@ -259,7 +259,7 @@ class Pacman(DynamicObject):
                 self.score += 5
 
     def set_direction_image(self):
-        """This function sets pacman image that depends on direction and bonus."""
+        """This function sets pacman's image that depends on direction and bonus."""
         if self.bonus is None:
             if self.direction == 'up':
                 self.image = Textures.pacman_up

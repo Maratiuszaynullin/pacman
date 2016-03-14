@@ -28,7 +28,6 @@ class StaticObject(pygame.sprite.Sprite):
 class SolidWall(StaticObject):
     """This class describes walls
     that can't be crushed by all dynamic objects.
-
     """
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.solid_wall, x, y)

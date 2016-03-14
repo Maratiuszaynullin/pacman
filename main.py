@@ -1,6 +1,5 @@
 # coding: utf-8
 from dynamic_object import *  # import pacman and ghosts
-from map import *
 import sys
 pacman_lvl = 0
 levels = ['./maps/lvl_0', './maps/lvl_1', './maps/lvl_2', './maps/lvl_3', './maps/lvl_4']
@@ -11,15 +10,15 @@ t = 0
 
 
 def init_window():
-    """This function create game window."""
+    """This function creates a game window."""
     pygame.init()
     pygame.display.set_mode((704, 640))
     pygame.display.set_caption('Pacman')
 
 
 def draw_background(scr, img=None):
-    """This function takes image and draw background with this image.
-    If image is not given background is filled with black color.
+    """This function takes an image and draws the background with this image.
+    If the image is not given the background is filled with black color.
     """
     if img:
         scr.blit(img, (0, 0))
@@ -38,7 +37,7 @@ def draw_objects():
 
 
 def draw_ghosts():
-    """This function draw alive ghosts."""
+    """This function draws alive ghosts."""
     if unblinded_ghost.status == 'alive':
         unblinded_ghost.draw(screen)
         unblinded_ghost.game_tick()
@@ -48,10 +47,9 @@ def draw_ghosts():
 
 
 def draw_score(scr, x=160, y=591):
-    """This function draws score during the game."""
+    """This function draws the score during the game."""
     for i in range(10):
         if pacman.score // 10 == i:
-            #Score(Textures.score[i], 0, 0).draw(screen)
             scr.blit(Textures.score[i], (x, y))
     for i in range(10):
         if pacman.score % 10 == i:
@@ -59,8 +57,8 @@ def draw_score(scr, x=160, y=591):
 
 
 def game_over(img):
-    """When you win or lose this function draw
-    suitable background and show your score.
+    """When you win or lose this function draws a
+    suitable background and shows your score.
     """
     draw_background(screen, img)
     draw_score(screen, 389, 366)
@@ -88,17 +86,8 @@ def you_lose():
         return 'false'
 
 
-"""def set_map():
-    global MAP
-    if you_lose() == 'true':
-        MAP = Map('./maps/lvl_1')
-    else: MAP = MAP = Map('./maps/lvl_0')
-    return MAP
-MAP = set_map()"""
-
-
 def restart_lvl():
-    """This function sets opening settings."""
+    """This function sets initial settings."""
     global count_all_food
     (pacman.x, pacman.y) = (9, 8)
     (blind_ghost.x, blind_ghost.y) = (3, 8)
@@ -116,14 +105,14 @@ def restart_lvl():
 
 
 def next_lvl():
-    """This function sets opening setting when player go to next lvl."""
-    global pacman_lvl, count_all_food
+    """This function sets initial setting when a player goes to the next lvl."""
+    global pacman_lvl
     pacman_lvl += 1
     restart_lvl()
 
 
 def process_events(events, pac):
-    """This function help control the game
+    """This function helps to control the game
     (pacman, restart game, continue game) with keyboard.
     """
     for event in events:
@@ -172,7 +161,6 @@ if __name__ == '__main__':
             img = Textures.win_screen
             if pacman_lvl == max_lvl:
                 pacman_lvl = -1
-                #img = Textures make game_over screen with total score, score, new_game. Make main_screen. Make score pictures
             pygame.time.delay(50)
             game_over(img)
             pygame.display.update()
