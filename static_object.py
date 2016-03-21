@@ -24,8 +24,10 @@ class StaticObject(pygame.sprite.Sprite):
     def draw(self, scr):
         scr.blit(self.image, (self.screen_rect.x, self.screen_rect.y))
 
+class Wall(StaticObject):
+    pass
 
-class SolidWall(StaticObject):
+class SolidWall(Wall):
     """This class describes walls
     that can't be crushed by all dynamic objects.
     """
@@ -33,7 +35,7 @@ class SolidWall(StaticObject):
         StaticObject.__init__(self, Textures.solid_wall, x, y)
 
 
-class FragileWall(StaticObject):
+class FragileWall(Wall):
     """This class describes walls
     that can be crushed by pacman.
 
@@ -42,13 +44,16 @@ class FragileWall(StaticObject):
         StaticObject.__init__(self, Textures.fragile_wall, x, y)
 
 
-class Food(StaticObject):
+class EatableObject(StaticObject):
+    pass
+
+class Food(EatableObject):
     """This class describes pacman's food."""
     def __init__(self, x, y):
         StaticObject.__init__(self, Textures.food, x, y)
 
 
-class Pickaxe(StaticObject):
+class Pickaxe(EatableObject):
     """This class describes bonus
     that help pacman crush solid walls.
 
@@ -57,7 +62,7 @@ class Pickaxe(StaticObject):
         StaticObject.__init__(self, Textures.pickaxe, x, y)
 
 
-class Sword(StaticObject):
+class Sword(EatableObject):
     """This class describes bonus
         that help pacman kill ghosts
 
@@ -66,7 +71,7 @@ class Sword(StaticObject):
         StaticObject.__init__(self, Textures.sword, x, y)
 
 
-class Elixir(StaticObject):
+class Elixir(EatableObject):
     """This class describes bonus
     that increase pacman's speed.
 

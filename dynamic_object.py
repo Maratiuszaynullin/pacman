@@ -206,22 +206,22 @@ class Pacman(DynamicObject):
         self.score = 0
 
     def eat_static_objects(self):
-        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Food):  # If pacman eats food count_food changes.
-            m.MAP.data[int(self.y)][int(self.x)] = None
+        static_object = m.MAP.data[int(self.y)][int(self.x)]
+        if not isinstance(static_object, EatableObject):
+            return
+        m.MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(static_object, Food):  # If pacman eats food count_food changes.
             self.count_food += 1
             self.score += 1
-        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Pickaxe):  # If pacman eats pickaxe he can crush all walls.
-            m.MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(static_object, Pickaxe):  # If pacman eats pickaxe he can crush all walls.
             self.bonus = 'pickaxe'
             self.velocity = 4.0 / 10.0
             self.score += 3
-        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Elixir):  # If pacman eats elixir his speed increases.
-            m.MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(static_object, Elixir):  # If pacman eats elixir his speed increases.
             self.bonus = 'elixir'
             self.bonus_time = 70
             self.score += 4
-        if isinstance(m.MAP.data[int(self.y)][int(self.x)], Sword):  # If pacman eats sword he can kill ghosts.
-            m.MAP.data[int(self.y)][int(self.x)] = None
+        if isinstance(static_object, Sword):  # If pacman eats sword he can kill ghosts.
             self.bonus = 'sword'
             self.velocity = 4.0 / 10.0
             self.score += 3
